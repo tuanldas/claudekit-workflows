@@ -1,0 +1,33 @@
+"use client";
+
+import type { WorkflowCategory } from "@/types/workflow";
+import { categoryOrder } from "@/data/workflows";
+import { uiStrings } from "@/i18n/translations";
+import { useLocale } from "@/i18n/language-context";
+
+interface CategoryTabsProps {
+  active: WorkflowCategory;
+  onChange: (category: WorkflowCategory) => void;
+}
+
+export function CategoryTabs({ active, onChange }: CategoryTabsProps) {
+  const { locale } = useLocale();
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {categoryOrder.map((cat) => (
+        <button
+          key={cat}
+          onClick={() => onChange(cat)}
+          className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+            active === cat
+              ? "bg-orange-500 text-white"
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+          }`}
+        >
+          {uiStrings.categories[cat][locale]}
+        </button>
+      ))}
+    </div>
+  );
+}
