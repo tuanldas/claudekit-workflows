@@ -18,9 +18,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  // Project light-only hiện tại; dark mode out of scope. Khi scope dark mode,
-  // change colorScheme: "light dark" + add 2 themeColor entries.
-  colorScheme: "light",
+  // Project light-only hiện tại; dark mode out of scope. "only light" (strict
+  // opt-out) ngăn Chrome force-dark / macOS auto-darken invert background mà
+  // không invert shiki's inline foreground colors → dark bg + dark text issue.
+  // Khi scope dark mode lại: colorScheme "light dark" + 2 themeColor entries.
+  colorScheme: "only light",
   themeColor: "#ffffff",
 };
 
