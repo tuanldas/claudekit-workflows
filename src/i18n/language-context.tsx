@@ -1,41 +1,28 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, type ReactNode } from "react";
 import type { Locale } from "@/types/workflow";
-import { DEFAULT_LOCALE } from "./translations";
-
-const STORAGE_KEY = "claudekit-workflows-locale";
 
 interface LanguageContextValue {
   locale: Locale;
-  setLocale: (locale: Locale) => void;
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(DEFAULT_LOCALE);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === "vi" || stored === "en") {
-      setLocaleState(stored);
-    }
-  }, []);
-
-  const setLocale = (next: Locale) => {
-    setLocaleState(next);
-    localStorage.setItem(STORAGE_KEY, next);
-  };
-
+/**
+ * Provides the active locale to descendants. Locale is derived from the URL
+ * segment in `app/[locale]/layout.tsx` — không còn dùng localStorage.
+ * Switching locale = client-side navigate to /{target}/... (xem LanguageSwitcher).
+ */
+export function LanguageProvider({
+  locale,
+  children,
+}: {
+  locale: Locale;
+  children: ReactNode;
+}) {
   return (
-    <LanguageContext.Provider value={{ locale, setLocale }}>
+    <LanguageContext.Provider value={{ locale }}>
       {children}
     </LanguageContext.Provider>
   );

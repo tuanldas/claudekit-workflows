@@ -1,7 +1,12 @@
 "use client";
 
-import { useLocale } from "@/i18n/language-context";
+import { usePathname, useRouter } from "next/navigation";
 import type { Locale } from "@/types/workflow";
+import {
+  LOCALES,
+  getLocaleFromPath,
+  swapLocaleInPath,
+} from "@/lib/locale-routing";
 
 const labels: Record<Locale, string> = {
   vi: "VI",
@@ -9,16 +14,27 @@ const labels: Record<Locale, string> = {
 };
 
 export function LanguageSwitcher() {
-  const { locale, setLocale } = useLocale();
+  const pathname = usePathname();
+  const router = useRouter();
+  const current = getLocaleFromPath(pathname);
+
+  function switchTo(target: Locale) {
+    if (target === current) return;
+    // TODO Phase 4: nếu pathname là docs route, probe target existence
+    // qua HEAD request; show confirm dialog nếu translation thiếu.
+    // Hiện chỉ swap URL — works cho dashboard pages.
+    router.push(swapLocaleInPath(pathname, target));
+  }
 
   return (
     <div className="inline-flex items-center rounded-lg border border-gray-200 bg-white p-0.5 text-xs font-semibold">
-      {(["vi", "en"] as Locale[]).map((loc) => (
+      {LOCALES.map((loc) => (
         <button
           key={loc}
-          onClick={() => setLocale(loc)}
+          onClick={() => switchTo(loc)}
+          aria-pressed={current === loc}
           className={`rounded-md px-2.5 py-1 transition-colors ${
-            locale === loc
+            current === loc
               ? "bg-orange-500 text-white"
               : "text-gray-500 hover:text-gray-700"
           }`}

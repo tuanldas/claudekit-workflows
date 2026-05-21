@@ -52,11 +52,12 @@ src/
 
 ## Quyết định quan trọng
 
-### 1. i18n — Custom Context approach
+### 1. i18n — Path-based routing
 - **KHÔNG dùng** next-intl / next-i18next (overkill cho 2 ngôn ngữ)
-- **DÙNG** React Context + `localStorage` persistence
-- **Default**: VI luôn (sửa trong `src/i18n/translations.ts`: `DEFAULT_LOCALE = "vi"`)
-- **HTML lang**: `<html lang="vi">` cho SEO
+- **DÙNG** path-based `/[locale]/...` routes + `LanguageProvider` lấy locale từ URL
+- `/` redirect 308 → `/vi` qua `src/middleware.ts`
+- **Default**: VI (`src/lib/locale-routing.ts:DEFAULT_LOCALE`)
+- Pure-function locale logic trong `src/lib/locale-routing.ts` (testable)
 
 ### 2. Data structure — Localized strings inline
 - Mỗi field text dạng `{ vi: string, en: string }` thay vì 2 file riêng
@@ -123,35 +124,23 @@ src/
 
 ```
 docs/
-├── claudekit-overview.md                       ← Index + decision trees
-├── engineer-kit-changes-2026-05-21.md          ← Latest changelog
-├── workflow-patterns-decision-matrices.md      ← 10 patterns + 10 matrices
-├── engineer/                                   ← 17 files (~145KB)
-│   ├── 01-core-workflow.md      plan/cook/fix/ship/test/code-review/scout/debug
-│   ├── 02-thinking-tools.md     brainstorm/ask/predict/scenario/research
-│   ├── 03-plan-reviews.md       4 plan reviews + autoplan + plan-tune
-│   ├── 04-design.md             design pipeline
-│   ├── 05-frontend.md           React/Next/UI/3D/Mobile
-│   ├── 06-backend-infra.md      backend/auth/payment/deploy/security
-│   ├── 07-mobile-media.md       AI artist/multimodal/media/browsers
-│   ├── 08-docs-files.md         docs/llms/diagrams/office files
-│   ├── 09-codebase-tools.md     understand-*/gkg/repomix/xia
-│   ├── 10-ai-mcp.md             context-eng/ADK/MCP
-│   ├── 11-coordination.md       team/worktree/git/journal/utilities
-│   ├── 12-agents.md             13 specialist agents
-│   ├── 13-safety-context.md     careful/freeze/guard/checkpoint
-│   ├── 14-qa-browser-testing.md qa family/browse/scrape/benchmark/health
-│   ├── 15-claude-ai-tools.md    claude-api/claude-code/codex/humanizer
-│   ├── 16-deployment-release.md land-and-deploy/document-release/retro/make-pdf
-│   └── 17-gstack-gbrain.md      gstack ecosystem/gbrain/pair-agent/cso/office-hours
-├── marketing/                                  ← 9 files
-└── workflows/                                  ← Official ClaudeKit workflows
+├── vi/                                         ← Vietnamese content (default)
+│   ├── claudekit-overview.md                   ← Index + decision trees
+│   ├── engineer-kit-changes-2026-05-21.md      ← Latest changelog
+│   ├── workflow-patterns-decision-matrices.md  ← 10 patterns + 10 matrices
+│   ├── engineer/                               ← 17 files (~145KB)
+│   │   ├── 01-core-workflow.md ... 17-gstack-gbrain.md
+│   ├── marketing/                              ← 9 files
+│   ├── workflows/                              ← Official ClaudeKit workflows
+│   └── cli/                                    ← CLI commands reference
+├── en/                                         ← English content (filled gradually)
+└── plans/                                      ← Active plans + reports
 ```
 
 **KHI THÊM WORKFLOW MỚI**, đọc trước:
-- `docs/claudekit-overview.md` (decision trees để pick commands)
-- `docs/engineer/0X-*.md` cho domain-specific commands
-- `docs/workflows/engineering-workflows-reference.md` cho official patterns
+- `docs/vi/claudekit-overview.md` (decision trees để pick commands)
+- `docs/vi/engineer/0X-*.md` cho domain-specific commands
+- `docs/vi/workflows/engineering-workflows-reference.md` cho official patterns
 - **docs.claudekit.cc** cho official documentation
 
 ---
@@ -200,8 +189,8 @@ npm run lint       # ESLint
 1. Khi ClaudeKit update version
 2. Read SKILL.md files trong ~/.claude/skills/
 3. Cross-reference với docs.claudekit.cc
-4. Update files trong docs/engineer/ hoặc docs/marketing/
-5. Update docs/engineer-kit-changes-{date}.md với changelog
+4. Update files trong docs/vi/engineer/ hoặc docs/vi/marketing/
+5. Update docs/vi/engineer-kit-changes-{date}.md với changelog
 ```
 
 ### Fix bug
