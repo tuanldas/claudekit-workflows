@@ -10,8 +10,8 @@ export const uiStrings = {
   },
   appBadge: { vi: "Hướng dẫn Workflow", en: "Workflow Guide" },
   searchPlaceholder: {
-    vi: "Tìm workflow...",
-    en: "Search workflows...",
+    vi: "Tìm workflow…",
+    en: "Search workflows…",
   },
   workflowsCount: {
     vi: (n: number) => `${n} workflow`,

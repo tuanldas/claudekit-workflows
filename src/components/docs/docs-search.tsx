@@ -65,7 +65,7 @@ export function DocsSearch({ locale }: { locale: Locale }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-50"
+        className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-500 transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-2 focus-visible:outline-none"
         aria-label={placeholder}
       >
         <svg
@@ -94,14 +94,24 @@ export function DocsSearch({ locale }: { locale: Locale }) {
             value={query}
             onValueChange={setQuery}
             autoFocus
-            className="w-full border-b border-gray-200 px-4 py-3 text-sm outline-none"
+            spellCheck={false}
+            autoComplete="off"
+            className="w-full border-b border-gray-200 px-4 py-3 text-sm focus:outline-none"
           />
           <Command.List className="max-h-80 overflow-y-auto p-2">
             {client?.isEmpty && (
               <div className="p-3 text-sm text-amber-700">
-                {locale === "vi"
-                  ? "Search chưa sẵn sàng trong dev. Chạy `npm run build:search` một lần."
-                  : "Search unavailable in dev. Run `npm run build:search` once."}
+                {locale === "vi" ? (
+                  <>
+                    Search chưa sẵn sàng trong dev. Chạy{" "}
+                    <code translate="no">npm run build:search</code> một lần.
+                  </>
+                ) : (
+                  <>
+                    Search unavailable in dev. Run{" "}
+                    <code translate="no">npm run build:search</code> once.
+                  </>
+                )}
               </div>
             )}
             {!client?.isEmpty && results.length === 0 && query && (
@@ -117,7 +127,12 @@ export function DocsSearch({ locale }: { locale: Locale }) {
                 className="flex cursor-pointer items-center justify-between rounded px-3 py-2 text-sm aria-selected:bg-orange-50 aria-selected:text-orange-700"
               >
                 <span className="font-medium">{r.title}</span>
-                <span className="ml-2 text-xs text-gray-400">{r.slug}</span>
+                <span
+                  className="ml-2 text-xs text-gray-400"
+                  translate="no"
+                >
+                  {r.slug}
+                </span>
               </Command.Item>
             ))}
           </Command.List>

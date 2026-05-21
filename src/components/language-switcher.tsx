@@ -33,7 +33,7 @@ export function LanguageSwitcher() {
           key={loc}
           onClick={() => switchTo(loc)}
           aria-pressed={current === loc}
-          className={`rounded-md px-2.5 py-1 transition-colors ${
+          className={`touch-manipulation rounded-md px-2.5 py-1 transition-colors focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-1 focus-visible:outline-none ${
             current === loc
               ? "bg-orange-500 text-white"
               : "text-gray-500 hover:text-gray-700"

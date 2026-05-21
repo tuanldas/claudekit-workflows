@@ -40,6 +40,7 @@ export const docsMDXComponents: MDXComponents = {
   ),
   code: (props) => (
     <code
+      translate="no"
       className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-[0.9em]"
       {...props}
     />

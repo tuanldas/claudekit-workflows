@@ -38,19 +38,22 @@ export function WorkflowPage() {
       <header className="border-b border-gray-200 bg-white">
         <div className="mx-auto max-w-7xl px-6 py-8">
           <div className="flex items-start justify-between gap-4">
-            <div className="flex-1">
+            <div className="min-w-0 flex-1">
               <div className="mb-2 flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500 text-sm font-bold text-white">
+                <div
+                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500 text-sm font-bold text-white"
+                  translate="no"
+                >
                   CK
                 </div>
                 <span className="text-xs font-medium tracking-wider text-gray-400 uppercase">
                   {uiStrings.appBadge[locale]}
                 </span>
               </div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-3xl font-bold text-balance text-gray-900">
                 {uiStrings.appTitle[locale]}
               </h1>
-              <p className="mt-1 text-gray-500">
+              <p className="mt-1 text-pretty text-gray-500">
                 {uiStrings.appSubtitle[locale]}
               </p>
             </div>

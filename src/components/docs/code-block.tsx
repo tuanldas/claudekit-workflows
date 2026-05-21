@@ -27,6 +27,7 @@ export function CodeBlock(props: React.HTMLAttributes<HTMLPreElement>) {
     <div className="group relative my-4">
       <pre
         ref={ref}
+        translate="no"
         {...props}
         className={`overflow-x-auto rounded-lg p-4 text-sm ${props.className ?? ""}`}
       />
@@ -34,7 +35,7 @@ export function CodeBlock(props: React.HTMLAttributes<HTMLPreElement>) {
         type="button"
         onClick={handleCopy}
         aria-label={copied ? "Copied" : "Copy code"}
-        className="absolute top-2 right-2 rounded bg-gray-800 px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 focus:opacity-100"
+        className="absolute top-2 right-2 rounded bg-gray-800 px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-2 focus-visible:outline-none"
       >
         {copied ? "Đã copy" : "Copy"}
       </button>

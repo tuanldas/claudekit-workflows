@@ -19,7 +19,8 @@ export function CategoryTabs({ active, onChange }: CategoryTabsProps) {
         <button
           key={cat}
           onClick={() => onChange(cat)}
-          className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+          aria-pressed={active === cat}
+          className={`touch-manipulation rounded-full px-4 py-1.5 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-2 focus-visible:outline-none ${
             active === cat
               ? "bg-orange-500 text-white"
               : "bg-gray-100 text-gray-600 hover:bg-gray-200"
