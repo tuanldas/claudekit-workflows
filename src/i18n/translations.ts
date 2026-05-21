@@ -47,6 +47,16 @@ export const uiStrings = {
     marketing: { vi: "Marketing", en: "Marketing" },
     "media-creative": { vi: "Media & Sáng tạo", en: "Media & Creative" },
   },
+  translationBanner: {
+    fromEn: {
+      vi: "Đang hiển thị bản tiếng Việt vì bản dịch tiếng Anh chưa có.",
+      en: "Showing Vietnamese version — English translation coming soon.",
+    },
+    fromVi: {
+      vi: "Đang hiển thị bản tiếng Anh vì bản tiếng Việt chưa có.",
+      en: "Showing English version — Vietnamese translation coming soon.",
+    },
+  },
 } as const;
 
 export function t(s: LocalizedString, locale: Locale): string {
