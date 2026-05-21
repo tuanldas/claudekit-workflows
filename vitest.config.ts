@@ -9,6 +9,7 @@ export default defineConfig({
     environment: 'happy-dom',
     globals: true,
     setupFiles: ['./vitest.setup.ts'],
+    exclude: ['node_modules/', '.next/', 'e2e/'], // e2e tests run via Playwright
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
