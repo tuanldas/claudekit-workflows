@@ -49,7 +49,10 @@ export async function compileMdx(
       [
         rehypeShiki,
         {
-          themes: { light: "github-light", dark: "github-dark" },
+          // Single theme — dark mode out of scope per plan. Khi scope dark mode,
+          // chuyển sang { themes: { light, dark }, defaultColor: false } + CSS
+          // toggle trong globals.css.
+          theme: "github-light",
           langs: SHIKI_LANGS,
         },
       ],

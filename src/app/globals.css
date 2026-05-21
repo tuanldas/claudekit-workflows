@@ -13,12 +13,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* Dark mode out of scope per plan — full dark theme cần DESIGN.md spec
+   (sidebar, cards, prose colors phải tất cả flip). Khi scope dark mode lại,
+   restore @media (prefers-color-scheme: dark) ở đây + shiki dual theme +
+   viewport.colorScheme/themeColor dark variant. */
 
 body {
   background: var(--background);
