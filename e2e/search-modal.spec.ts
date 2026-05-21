@@ -4,9 +4,13 @@ test.describe("search modal", () => {
   test("Cmd+K opens search modal, Escape closes", async ({ page }) => {
     await page.goto("/vi/docs/engineer/01-core-workflow");
     await page.keyboard.press("Meta+K");
-    await expect(page.getByRole("dialog", { name: /search/i })).toBeVisible();
+    // cmdk uses Radix portal — assert via data-state attribute (Playwright visibility check
+    // unreliable cho portal positioning).
+    await expect(page.locator('[role="dialog"][data-state="open"]')).toHaveCount(1);
+    // Search input visible inside the modal
+    await expect(page.getByPlaceholder(/T.+m trong docs|Search docs/i)).toBeVisible();
     await page.keyboard.press("Escape");
-    await expect(page.getByRole("dialog", { name: /search/i })).not.toBeVisible();
+    await expect(page.locator('[role="dialog"][data-state="open"]')).toHaveCount(0);
   });
 
   test("typing query shows results", async ({ page }) => {
