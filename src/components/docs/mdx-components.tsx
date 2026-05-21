@@ -1,11 +1,13 @@
 import type { MDXComponents } from "mdx/types";
+import { CodeBlock } from "./code-block";
 
 /**
  * Custom MDX component overrides. Headings get base styling; tables get
- * border + padding; anchor links inherit prose colors. Phase 4 sẽ thay
- * `pre` bằng CodeBlock với copy button.
+ * border + padding; anchor links inherit prose colors. `pre` wrapped trong
+ * CodeBlock cho copy button affordance.
  */
 export const docsMDXComponents: MDXComponents = {
+  pre: CodeBlock,
   h1: (props) => (
     <h1 className="mt-8 mb-4 text-3xl font-bold tracking-tight" {...props} />
   ),

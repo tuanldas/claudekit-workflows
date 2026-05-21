@@ -29,11 +29,12 @@ const loadMdxCached = unstable_cache(
 );
 
 interface PageProps {
-  params: Promise<{ locale: Locale; slug: string[] }>;
+  params: Promise<{ locale: string; slug: string[] }>;
 }
 
 export default async function DocsPage({ params }: PageProps) {
-  const { locale, slug } = await params;
+  const { locale: localeParam, slug } = await params;
+  const locale = localeParam as Locale;
   const result = await loadMdxCached(locale, slug.join("/"));
   if (!result) notFound();
 
@@ -60,7 +61,8 @@ export default async function DocsPage({ params }: PageProps) {
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const { locale, slug } = await params;
+  const { locale: localeParam, slug } = await params;
+  const locale = localeParam as Locale;
   const result = await loadMdxCached(locale, slug.join("/"));
   if (!result) return {};
   const title =

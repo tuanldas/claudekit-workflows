@@ -17,9 +17,10 @@ const loadLanding = unstable_cache(
 export default async function DocsLandingPage({
   params,
 }: {
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: localeParam } = await params;
+  const locale = localeParam as Locale;
   const result = await loadLanding(locale);
   if (!result) notFound();
 
