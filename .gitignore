@@ -13,6 +13,9 @@
 # testing
 /coverage
 
+# search index (generated at build-time, not committed)
+/public/search-index-*.json
+
 # next.js
 /.next/
 /out/

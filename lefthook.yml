@@ -1,0 +1,17 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: lint
+      glob: "src/**/*.{ts,tsx,js,jsx}"
+      run: npx eslint {staged_files}
+    - name: typecheck
+      glob: "**/*.{ts,tsx}"
+      run: npx tsc --noEmit
+    - name: test
+      glob: "src/**/*.{ts,tsx}"
+      run: npm run test:run
+
+pre-push:
+  jobs:
+    - name: coverage
+      run: npm run test:coverage
