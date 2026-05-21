@@ -12,6 +12,7 @@ Catalog đầy đủ ClaudeKit (130+ skills, 13+ agents, 15+ workflows) tổ ch�
 docs/
 ├── claudekit-overview.md           ← bạn đang ở đây
 ├── workflow-patterns.md            ← decision matrices, common chains
+├── engineer-kit-changes-2026-05-21.md  ← LATEST: Engineer Kit update changelog
 ├── engineer/
 │   ├── 01-core-workflow.md         ← plan, cook, fix, bootstrap, ship, test, code-review
 │   ├── 02-thinking-tools.md        ← ask, brainstorm, predict, scenario, research, problem-solving
@@ -24,7 +25,12 @@ docs/
 │   ├── 09-codebase-tools.md        ← understand-*, gkg, repomix, scout, web-testing
 │   ├── 10-ai-mcp.md                ← context-engineering, ADK, MCP builder/management/use, agentize
 │   ├── 11-coordination.md          ← team, worktree, git, journal, project-mgmt, utilities
-│   └── 12-agents.md                ← 13 engineer agents
+│   ├── 12-agents.md                ← 13 engineer agents
+│   ├── 13-safety-context.md        ← NEW: careful, freeze, guard, checkpoint, context-save/restore
+│   ├── 14-qa-browser-testing.md    ← NEW: qa family, browse, scrape, canary, benchmark, health
+│   ├── 15-claude-ai-tools.md       ← NEW: claude-api, claude-code, codex, humanizer, skillify
+│   ├── 16-deployment-release.md    ← NEW: land-and-deploy, document-release, retro, make-pdf
+│   └── 17-gstack-gbrain.md         ← NEW: gstack ecosystem, gbrain, pair-agent, cso, cti-expert, office-hours
 ├── marketing/
 │   ├── 01-core.md                  ← init, hub, dashboard
 │   ├── 02-content.md               ← write, copywriting, content-marketing, slides, creativity
