@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/types/workflow";
 import type { DocsTree } from "@/types/docs";
@@ -34,7 +35,11 @@ export function Sidebar({
     <nav aria-label="Sidebar" className={containerClass}>
       <SidebarHeader locale={locale} />
       <div className="flex-1 overflow-y-auto py-4">
-        {onWorkflows && <SidebarWorkflowsNav locale={locale} />}
+        {onWorkflows && (
+          <Suspense fallback={null}>
+            <SidebarWorkflowsNav locale={locale} />
+          </Suspense>
+        )}
         {onDocs && <SidebarDocsTree locale={locale} tree={docsTree} />}
         {onSkills && <SidebarSkillsNav locale={locale} />}
       </div>
