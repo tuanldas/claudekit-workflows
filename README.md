@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ClaudeKit Workflows
+
+Interactive visualization of ClaudeKit skills, workflows, and docs. Built with Next.js 16, Tailwind v4, and `@xyflow/react`.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3001> (dev server defaults to 3001 in this repo, but Next.js will pick the first free port if it's busy).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Admin Shell
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The app is laid out as an admin shell that wraps every locale-aware route:
 
-## Learn More
+```
+src/app/[locale]/layout.tsx          ← LanguageProvider + ThemeProvider + AdminShell
+src/components/shell/                ← Sidebar, Topbar, Breadcrumb, CommandPalette, MobileDrawer, ThemeToggle
+src/app/[locale]/workflows/          ← Workflows catalog (was /vi/[…])
+src/app/[locale]/docs/               ← MDX docs viewer
+src/app/[locale]/skills/             ← Skills catalog + detail
+```
 
-To learn more about Next.js, take a look at the following resources:
+Shell features:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Sidebar** swaps its content based on the current section (workflows categories, docs tree, skills groups). Hidden below `lg` and surfaced via the mobile drawer.
+- **Topbar** with breadcrumb, locale switcher (`VI`/`EN`), command palette trigger, and theme toggle (`light → dark → system`). Selection persists across reloads via `localStorage`.
+- **Command palette** (`Cmd+K` / `Ctrl+K`) — fuzzy search across workflows, docs, and skills with grouped results and recent-search history.
+- **Mobile drawer** — slides in the same sidebar nav from the left; closes on backdrop click, Escape, or category nav.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Locale routing — breaking change
 
-## Deploy on Vercel
+`/` no longer renders the workflows page directly. The proxy redirects:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Incoming URL                | Redirected to                       |
+| --------------------------- | ----------------------------------- |
+| `/`                         | `/vi` → `/vi/workflows` (default)   |
+| `/vi`                       | `/vi/workflows`                     |
+| `/en`                       | `/en/workflows`                     |
+| `/docs/...` (no locale)     | `/vi/docs/...`                      |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+External links pointing at the old bare `/vi` URL still resolve to the workflows catalog; bookmarks pointing inside a section are unaffected.
+
+## Development Commands
+
+```bash
+npm run dev               # Next.js dev server (port 3001)
+npm run build             # Full build: skills index → search index → next build
+npm run start             # Production server
+npm run lint              # ESLint
+npm run test              # Vitest watch
+npm run test:run          # Vitest single run
+npm run test:e2e          # Playwright E2E suite (desktop + mobile projects)
+npm run test:e2e:install  # One-time Playwright Chromium download
+npm run test:e2e:a11y     # Just the axe-core accessibility specs
+npm run test:e2e:report   # Open the last HTML report
+```
+
+### E2E specifics
+
+Specs live under `e2e/`. The Playwright `globalSetup` step rebuilds `src/data/skills-index.json` from `e2e/fixtures/skills/**/SKILL.md`, so the catalog is deterministic regardless of the developer's `~/.claude/skills` directory.
+
+Critical/serious axe violations gate the build; `color-contrast` is currently surfaced as informational (brand colors on the CK logo and muted section headings — addressable in a future design pass).
+
+## Deployment
+
+The app is a standard Next.js 16 build. Deploy on Vercel with one click, or any host that runs `npm run build` + `npm start`.
+
+## Reference Docs
+
+See `docs/` for the full ClaudeKit reference (commands, skills, workflows). The decision trees in `docs/vi/claudekit-overview.md` are the fastest way to learn which workflow to start with.
