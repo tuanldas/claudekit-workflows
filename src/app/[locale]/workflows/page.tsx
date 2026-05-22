@@ -1,7 +1,10 @@
-export default function WorkflowsPlaceholderPage() {
+import { Suspense } from "react";
+import { WorkflowsPageContent } from "@/components/workflows/workflows-page-content";
+
+export default function WorkflowsPage() {
   return (
-    <div className="mx-auto max-w-7xl px-6 py-10 text-sm text-gray-500">
-      Workflows page placeholder — Phase 2 fills with WorkflowPage.
-    </div>
+    <Suspense fallback={null}>
+      <WorkflowsPageContent />
+    </Suspense>
   );
 }
