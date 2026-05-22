@@ -6,6 +6,7 @@ import { Sidebar } from "./sidebar";
 
 vi.mock("next/navigation", () => ({
   usePathname: vi.fn(),
+  useSearchParams: vi.fn(() => new URLSearchParams()),
 }));
 
 function renderSidebar(locale: "vi" | "en" = "vi") {

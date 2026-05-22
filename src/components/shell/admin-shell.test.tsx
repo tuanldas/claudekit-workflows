@@ -6,7 +6,8 @@ import { AdminShell } from "./admin-shell";
 
 vi.mock("next/navigation", () => ({
   usePathname: vi.fn(() => "/vi/workflows"),
-  useRouter: vi.fn(() => ({ push: vi.fn() })),
+  useRouter: vi.fn(() => ({ push: vi.fn(), replace: vi.fn() })),
+  useSearchParams: vi.fn(() => new URLSearchParams()),
 }));
 
 function renderWithProviders(ui: React.ReactElement) {
