@@ -65,6 +65,12 @@ export const uiStrings = {
     skillsStub: { vi: "Skills nav (Phase 6)", en: "Skills nav (Phase 6)" },
     skillsFilter: { vi: "Lọc skill…", en: "Filter skills…" },
   },
+  sections: {
+    workflows: { vi: "Workflows", en: "Workflows" },
+    docs: { vi: "Tài liệu", en: "Docs" },
+    skills: { vi: "Skills", en: "Skills" },
+    label: { vi: "Mục", en: "Sections" },
+  },
   skills: {
     title: { vi: "Skills", en: "Skills" },
     searchPlaceholder: {

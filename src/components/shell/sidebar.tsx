@@ -6,6 +6,7 @@ import type { Locale } from "@/types/workflow";
 import type { DocsTree } from "@/types/docs";
 import type { Skill } from "@/types/skill";
 import { SidebarHeader } from "./sidebar-header";
+import { SidebarSectionTabs } from "./sidebar-section-tabs";
 import { SidebarWorkflowsNav } from "./sidebar-workflows-nav";
 import { SidebarDocsTree } from "./sidebar-docs-tree";
 import { SidebarSkillsNav } from "./sidebar-skills-nav";
@@ -38,6 +39,7 @@ export function Sidebar({
   return (
     <nav aria-label="Sidebar" className={containerClass}>
       <SidebarHeader locale={locale} />
+      <SidebarSectionTabs locale={locale} />
       <div className="flex-1 overflow-y-auto py-4">
         {onWorkflows && (
           <Suspense fallback={null}>
