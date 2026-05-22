@@ -49,11 +49,14 @@ export async function compileMdx(
       [
         rehypeShiki,
         {
-          // Single theme — dark mode out of scope per plan. Khi scope dark mode,
-          // chuyển sang { themes: { light, dark }, defaultColor: false } + CSS
-          // toggle trong globals.css.
+          // Single theme — dark mode out of scope per plan.
           theme: "github-light",
           langs: SHIKI_LANGS,
+          // Docs có nhiều ``` blocks KHÔNG language tag → shiki by default skip
+          // tokenize → pre lose inline bg/fg → Tailwind prose dark default apply.
+          // defaultLanguage 'text' makes shiki tokenize ALL blocks with light
+          // theme bg/fg + plaintext token (still readable, không syntax color).
+          defaultLanguage: "text",
         },
       ],
     ],

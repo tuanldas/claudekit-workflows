@@ -38,11 +38,23 @@ export const docsMDXComponents: MDXComponents = {
   a: (props) => (
     <a className="text-orange-600 underline hover:text-orange-700" {...props} />
   ),
-  code: (props) => (
-    <code
-      translate="no"
-      className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-[0.9em]"
-      {...props}
-    />
-  ),
+  // `code` override CHỈ apply cho inline code (text trong paragraph).
+  // Code blocks (`<pre><code class="language-X">`) đi qua shiki → có inline
+  // styles + className "shiki". Detect: shiki-processed code có class chứa
+  // "language-" prefix; inline plain `<code>` thì không.
+  code: ({ className, ...props }) => {
+    const isBlockCode =
+      typeof className === "string" && className.includes("language-");
+    if (isBlockCode) {
+      // Pass-through: shiki tokens + styling intact, no extra padding/bg
+      return <code translate="no" className={className} {...props} />;
+    }
+    return (
+      <code
+        translate="no"
+        className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-[0.9em]"
+        {...props}
+      />
+    );
+  },
 };
