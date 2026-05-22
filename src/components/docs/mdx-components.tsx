@@ -22,7 +22,15 @@ export const docsMDXComponents: MDXComponents = {
   ),
   h4: (props) => <h4 className="mt-4 mb-2 text-lg font-semibold" {...props} />,
   table: (props) => (
-    <div className="my-4 overflow-x-auto">
+    // tabIndex=0 makes the horizontal-scroll wrapper keyboard-accessible
+    // (axe scrollable-region-focusable). role/aria-label name the region for
+    // assistive tech.
+    <div
+      className="my-4 overflow-x-auto"
+      tabIndex={0}
+      role="region"
+      aria-label="Table"
+    >
       <table className="w-full border-collapse" {...props} />
     </div>
   ),

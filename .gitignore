@@ -12,6 +12,9 @@
 
 # testing
 /coverage
+/test-results/
+/playwright-report/
+/playwright/.cache/
 
 # search index (generated at build-time, not committed)
 /public/search-index-*.json
