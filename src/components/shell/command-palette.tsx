@@ -262,8 +262,12 @@ function getRecentSnapshot(): string[] {
   return recentSnapshot;
 }
 
+// Stable empty array so useSyncExternalStore doesn't flag a fresh server
+// snapshot on every render and trip its infinite-loop guard.
+const EMPTY_RECENT: string[] = [];
+
 function getRecentServerSnapshot(): string[] {
-  return [];
+  return EMPTY_RECENT;
 }
 
 function notifyRecentChanged() {
