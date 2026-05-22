@@ -34,10 +34,12 @@ describe("Sidebar", () => {
     expect(screen.getByText(/docs nav/i)).toBeInTheDocument();
   });
 
-  it("renders skills nav stub when pathname starts with /vi/skills", () => {
+  it("renders skills empty-state when pathname starts with /vi/skills with no skills", () => {
     vi.mocked(usePathname).mockReturnValue("/vi/skills");
     renderSidebar("vi");
-    expect(screen.getByText(/skills nav/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/skills sync chưa cấu hình/i),
+    ).toBeInTheDocument();
   });
 
   it("renders sidebar header with brand mark", () => {
