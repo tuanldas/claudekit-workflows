@@ -13,7 +13,7 @@ export function TranslationBanner({ originalLocale, resolvedLocale }: Props) {
   return (
     <div
       role="status"
-      className="mb-6 border-l-4 border-amber-400 bg-amber-50 p-4 text-sm text-amber-800"
+      className="mb-6 rounded-[var(--radius-md)] border border-warning/40 bg-warning-subtle p-4 text-sm text-warning"
     >
       {message}
     </div>

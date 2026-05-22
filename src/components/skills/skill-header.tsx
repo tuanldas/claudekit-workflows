@@ -1,5 +1,6 @@
 import type { Skill } from "@/types/skill";
 import { derivePlugin } from "@/lib/skill-plugin";
+import { Badge } from "@/components/ui";
 import { SkillPluginBadge } from "./skill-plugin-badge";
 
 interface Props {
@@ -22,20 +23,19 @@ export function SkillHeader({ skill }: Props) {
     <div className="mb-4 flex flex-wrap items-center gap-2">
       {plugin && <SkillPluginBadge plugin={plugin} />}
       {skill.group && (
-        <span className="text-xs font-medium tracking-wider text-orange-600 uppercase dark:text-orange-400">
+        <span className="text-[11px] font-semibold tracking-wider text-accent uppercase">
           {skill.group}
         </span>
       )}
       {hasMeta && hasTags && (
-        <span className="text-gray-300 dark:text-gray-700">·</span>
+        <span aria-hidden className="text-foreground-subtle">
+          ·
+        </span>
       )}
       {skill.tags.map((tag) => (
-        <span
-          key={tag}
-          className="rounded-md bg-gray-100 px-2 py-0.5 text-xs text-gray-700 dark:bg-gray-800 dark:text-gray-300"
-        >
+        <Badge key={tag} variant="outline" size="sm">
           {tag}
-        </span>
+        </Badge>
       ))}
     </div>
   );

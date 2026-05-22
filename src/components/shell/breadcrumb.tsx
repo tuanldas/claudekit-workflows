@@ -57,26 +57,30 @@ export function Breadcrumb({ locale }: { locale: Locale }) {
 
   return (
     <nav aria-label="Breadcrumb" className="min-w-0 flex-1">
-      <ol className="flex items-center gap-2 text-sm text-gray-500">
+      <ol className="flex items-center gap-2 text-sm text-foreground-muted">
         {segments.length === 0 && (
-          <li className="text-gray-400">
+          <li className="text-foreground-subtle">
             {uiStrings.breadcrumb.home[locale]}
           </li>
         )}
         {segments.map((seg, idx) => (
           <li key={`${seg.label}-${idx}`} className="flex items-center gap-2">
-            {idx > 0 && <span aria-hidden className="text-gray-300">/</span>}
+            {idx > 0 && (
+              <span aria-hidden className="text-foreground-subtle">
+                /
+              </span>
+            )}
             {seg.href ? (
               <Link
                 href={seg.href}
-                className="truncate hover:text-gray-900"
+                className="truncate transition-colors hover:text-foreground"
               >
                 {seg.label}
               </Link>
             ) : (
               <span
                 aria-current={idx === segments.length - 1 ? "page" : undefined}
-                className="truncate font-medium text-gray-900"
+                className="truncate font-medium text-foreground"
               >
                 {seg.label}
               </span>

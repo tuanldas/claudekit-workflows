@@ -12,7 +12,7 @@ interface Props {
 export function SidebarDocsTree({ locale, tree }: Props) {
   if (!tree) {
     return (
-      <div className="px-4 text-sm text-gray-500" aria-label="Docs nav stub">
+      <div className="px-4 text-sm text-foreground-muted" aria-label="Docs nav stub">
         {uiStrings.nav.docsStub[locale]}
       </div>
     );

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { MDX_CONTENT_SELECTOR } from "./constants";
+import { cn } from "@/lib/cn";
 
 interface TocItem {
   id: string;
@@ -14,16 +15,6 @@ interface Props {
   selector?: string;
 }
 
-/**
- * TOC client component. Extracts headings from rendered article AFTER mount —
- * KHÔNG đọc DOM trong render (gây hydration mismatch). useEffect runs after
- * hydration, setItems triggers re-render với populated nav.
- *
- * NOTE: setState is intentional here (not anti-pattern). This is the canonical
- * pattern for post-mount DOM extraction. It ensures server + client first
- * render emit identical HTML (empty TOC), then useEffect populates after
- * hydration completes.
- */
 export function DocsToc({ selector = MDX_CONTENT_SELECTOR }: Props) {
   const [items, setItems] = useState<TocItem[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -42,11 +33,9 @@ export function DocsToc({ selector = MDX_CONTENT_SELECTOR }: Props) {
         level: Number(h.tagName[1]),
       }));
 
-    // Single computed setState call — hydration-safe pattern
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setItems(tocItems);
 
-    // IntersectionObserver setup happens after setItems
     observerRef.current = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -64,17 +53,20 @@ export function DocsToc({ selector = MDX_CONTENT_SELECTOR }: Props) {
 
   return (
     <nav aria-label="On this page" className="text-sm">
-      <p className="mb-2 font-semibold text-gray-900">Trên trang</p>
-      <ul className="space-y-1 border-l border-gray-200">
+      <p className="mb-2 text-[11px] font-semibold tracking-wider text-foreground-subtle uppercase">
+        Trên trang
+      </p>
+      <ul className="space-y-0.5 border-l border-border">
         {items.map((item) => (
           <li key={item.id} className={item.level === 3 ? "ml-3" : ""}>
             <a
               href={`#${item.id}`}
-              className={`block border-l-2 py-0.5 pl-3 transition-colors ${
+              className={cn(
+                "block -ml-px border-l py-1 pl-3 text-[13px] transition-colors",
                 activeId === item.id
-                  ? "border-orange-500 font-medium text-orange-600"
-                  : "border-transparent text-gray-500 hover:text-gray-900"
-              }`}
+                  ? "border-accent font-medium text-accent"
+                  : "border-transparent text-foreground-muted hover:text-foreground",
+              )}
             >
               {item.text}
             </a>

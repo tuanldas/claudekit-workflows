@@ -7,6 +7,7 @@ import {
   getLocaleFromPath,
   swapLocaleInPath,
 } from "@/lib/locale-routing";
+import { cn } from "@/lib/cn";
 
 const labels: Record<Locale, string> = {
   vi: "VI",
@@ -24,18 +25,19 @@ export function LocaleSwitcher() {
   }
 
   return (
-    <div className="inline-flex items-center rounded-lg border border-gray-200 bg-white p-0.5 text-xs font-semibold">
+    <div className="inline-flex h-8 items-center rounded-[var(--radius-md)] border border-border bg-surface p-0.5 text-xs font-semibold">
       {LOCALES.map((loc) => (
         <button
           key={loc}
           type="button"
           onClick={() => switchTo(loc)}
           aria-pressed={current === loc}
-          className={`touch-manipulation rounded-md px-2.5 py-1 transition-colors focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-1 focus-visible:outline-none ${
+          className={cn(
+            "h-7 cursor-pointer touch-manipulation rounded-[var(--radius-sm)] px-2.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-ring)]",
             current === loc
-              ? "bg-orange-500 text-white"
-              : "text-gray-500 hover:text-gray-700"
-          }`}
+              ? "bg-accent text-accent-foreground"
+              : "text-foreground-muted hover:text-foreground",
+          )}
         >
           {labels[loc]}
         </button>

@@ -17,7 +17,7 @@ export function Topbar({ locale, onMenuClick, menuLabel }: Props) {
   return (
     <header
       role="banner"
-      className="flex h-14 shrink-0 items-center gap-2 border-b border-gray-200 bg-white px-2 sm:gap-4 sm:px-6"
+      className="flex h-13 shrink-0 items-center gap-2 border-b border-border bg-background px-2 sm:gap-4 sm:px-6"
     >
       {onMenuClick && (
         <HamburgerButton
@@ -26,7 +26,7 @@ export function Topbar({ locale, onMenuClick, menuLabel }: Props) {
         />
       )}
       <Breadcrumb locale={locale} />
-      <div className="flex items-center gap-2 sm:gap-3">
+      <div className="flex items-center gap-2">
         <CommandPaletteTrigger locale={locale} />
         <LocaleSwitcher />
         <ThemeToggle locale={locale} />

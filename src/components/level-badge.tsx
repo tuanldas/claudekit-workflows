@@ -4,23 +4,28 @@ import type { WorkflowLevel } from "@/types/workflow";
 import { uiStrings } from "@/i18n/translations";
 import { useLocale } from "@/i18n/language-context";
 
-const levelClassNames: Record<WorkflowLevel, string> = {
-  beginner: "bg-green-100 text-green-700",
-  intermediate: "bg-orange-100 text-orange-700",
-  advanced: "bg-red-100 text-red-700",
+const dotClass: Record<WorkflowLevel, string> = {
+  beginner: "bg-success",
+  intermediate: "bg-warning",
+  advanced: "bg-accent",
 };
 
 interface LevelBadgeProps {
   level: WorkflowLevel;
 }
 
+/**
+ * Dot + label badge — readable for colorblind users (shape + text, not color
+ * alone). Replaces pill style to align with Linear/Vercel minimal aesthetic.
+ */
 export function LevelBadge({ level }: LevelBadgeProps) {
   const { locale } = useLocale();
-
   return (
-    <span
-      className={`inline-block rounded px-2 py-0.5 text-xs font-semibold ${levelClassNames[level]}`}
-    >
+    <span className="inline-flex items-center gap-1.5 text-[11px] font-medium tracking-wide text-foreground-muted">
+      <span
+        aria-hidden="true"
+        className={`inline-block size-1.5 rounded-full ${dotClass[level]}`}
+      />
       {uiStrings.level[level][locale]}
     </span>
   );

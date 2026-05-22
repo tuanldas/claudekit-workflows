@@ -4,6 +4,7 @@ import type { Workflow } from "@/types/workflow";
 import { useLocale } from "@/i18n/language-context";
 import { LevelBadge } from "./level-badge";
 import { FlowSteps } from "./flow-steps";
+import { cn } from "@/lib/cn";
 
 interface WorkflowCardProps {
   workflow: Workflow;
@@ -21,16 +22,19 @@ export function WorkflowCard({
   return (
     <button
       onClick={onClick}
-      className={`group w-full cursor-pointer touch-manipulation rounded-xl border p-5 text-left transition-colors transition-shadow focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-2 focus-visible:outline-none ${
+      aria-pressed={isSelected}
+      className={cn(
+        "group w-full cursor-pointer touch-manipulation rounded-[var(--radius-lg)] border p-4 text-left transition-colors",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         isSelected
-          ? "border-orange-300 bg-orange-50 shadow-md"
-          : "border-gray-200 bg-white hover:border-orange-200 hover:shadow-sm"
-      }`}
+          ? "border-accent bg-accent-subtle"
+          : "border-border bg-background hover:border-border-strong hover:bg-surface",
+      )}
     >
-      <div className="mb-3 flex items-center justify-between">
+      <div className="mb-3 flex items-center justify-between gap-2">
         <LevelBadge level={workflow.level} />
         <span
-          className="font-mono text-xs text-gray-400 tabular-nums"
+          className="font-mono text-[11px] tabular-nums text-foreground-subtle"
           translate="no"
         >
           ~{workflow.duration}
@@ -38,14 +42,15 @@ export function WorkflowCard({
       </div>
 
       <h3
-        className={`mb-1.5 text-base font-semibold text-balance ${
-          isSelected ? "text-orange-700" : "text-gray-900"
-        }`}
+        className={cn(
+          "mb-1.5 text-[15px] font-semibold tracking-tight text-balance",
+          isSelected ? "text-accent" : "text-foreground",
+        )}
       >
         {workflow.title[locale]}
       </h3>
 
-      <p className="mb-4 line-clamp-3 text-sm leading-relaxed text-gray-500">
+      <p className="mb-4 line-clamp-3 text-[13px] leading-relaxed text-foreground-muted">
         {workflow.description[locale]}
       </p>
 

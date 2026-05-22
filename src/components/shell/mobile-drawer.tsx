@@ -76,14 +76,14 @@ export function MobileDrawer({
         data-testid="drawer-backdrop"
         aria-label="Close menu"
         onClick={onClose}
-        className="absolute inset-0 h-full w-full bg-black/50"
+        className="absolute inset-0 h-full w-full bg-black/50 backdrop-blur-[2px]"
       />
       <div
         ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-label={label}
-        className="absolute top-0 left-0 flex h-full w-[280px] flex-col overflow-y-auto bg-white shadow-xl [overscroll-behavior:contain] motion-safe:-translate-x-full motion-safe:animate-[mobileDrawerSlideIn_200ms_ease-out_forwards] dark:bg-gray-900"
+        className="absolute top-0 left-0 flex h-full w-[280px] flex-col overflow-y-auto border-r border-border bg-background shadow-2xl [overscroll-behavior:contain] motion-safe:-translate-x-full motion-safe:animate-[mobileDrawerSlideIn_200ms_ease-out_forwards]"
       >
         {children}
       </div>

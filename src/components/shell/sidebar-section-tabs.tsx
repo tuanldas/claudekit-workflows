@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/types/workflow";
 import { uiStrings } from "@/i18n/translations";
+import { cn } from "@/lib/cn";
 
 interface Section {
   key: "workflows" | "docs" | "skills";
@@ -35,7 +36,7 @@ export function SidebarSectionTabs({ locale }: { locale: Locale }) {
   return (
     <nav
       aria-label={uiStrings.sections.label[locale]}
-      className="border-b border-gray-200 px-2 py-2"
+      className="border-b border-border px-2 py-2"
     >
       <ul className="flex flex-col gap-0.5">
         {SECTIONS.map((section) => {
@@ -45,11 +46,12 @@ export function SidebarSectionTabs({ locale }: { locale: Locale }) {
               <Link
                 href={section.href(locale)}
                 aria-current={active ? "page" : undefined}
-                className={`block rounded-md px-3 py-1.5 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:outline-none ${
+                className={cn(
+                  "block rounded-[var(--radius-sm)] px-3 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-ring)]",
                   active
-                    ? "bg-orange-50 font-medium text-orange-700"
-                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-                }`}
+                    ? "bg-accent-subtle font-medium text-accent"
+                    : "text-foreground-muted hover:bg-surface-hover hover:text-foreground",
+                )}
               >
                 {uiStrings.sections[section.key][locale]}
               </Link>

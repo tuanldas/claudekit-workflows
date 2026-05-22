@@ -20,7 +20,6 @@ export function DocsSearch({ locale }: { locale: Locale }) {
   const [client, setClient] = useState<SearchClient | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Cmd+K (Mac) / Ctrl+K toggle
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
@@ -32,14 +31,12 @@ export function DocsSearch({ locale }: { locale: Locale }) {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // Lazy load index on first open
   useEffect(() => {
     if (open && !client) {
       loadSearchIndex(locale).then(setClient);
     }
   }, [open, client, locale]);
 
-  // Real setTimeout debounce
   useEffect(() => {
     if (!client) return;
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -65,7 +62,7 @@ export function DocsSearch({ locale }: { locale: Locale }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-500 transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-2 focus-visible:outline-none"
+        className="inline-flex cursor-pointer items-center gap-2 rounded-[var(--radius-md)] border border-border bg-surface px-3 py-1.5 text-sm text-foreground-muted transition-colors hover:border-border-strong hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-ring)]"
         aria-label={placeholder}
       >
         <svg
@@ -86,9 +83,9 @@ export function DocsSearch({ locale }: { locale: Locale }) {
         open={open}
         onOpenChange={setOpen}
         label="Search docs"
-        className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 p-4 sm:pt-[10vh]"
+        className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 p-4 backdrop-blur-[2px] sm:pt-[10vh]"
       >
-        <div className="w-full max-w-xl rounded-lg bg-white shadow-2xl">
+        <div className="w-full max-w-xl overflow-hidden rounded-[var(--radius-lg)] border border-border-strong bg-surface-elevated shadow-2xl">
           <Command.Input
             placeholder={placeholder}
             value={query}
@@ -96,11 +93,11 @@ export function DocsSearch({ locale }: { locale: Locale }) {
             autoFocus
             spellCheck={false}
             autoComplete="off"
-            className="w-full border-b border-gray-200 px-4 py-3 text-sm focus:outline-none"
+            className="w-full border-b border-border bg-transparent px-4 py-3 text-sm text-foreground placeholder:text-foreground-subtle focus:outline-none"
           />
           <Command.List className="max-h-80 overflow-y-auto p-2">
             {client?.isEmpty && (
-              <div className="p-3 text-sm text-amber-700">
+              <div className="rounded-[var(--radius-sm)] bg-warning-subtle p-3 text-sm text-warning">
                 {locale === "vi" ? (
                   <>
                     Search chưa sẵn sàng trong dev. Chạy{" "}
@@ -115,7 +112,7 @@ export function DocsSearch({ locale }: { locale: Locale }) {
               </div>
             )}
             {!client?.isEmpty && results.length === 0 && query && (
-              <Command.Empty className="p-3 text-sm text-gray-500">
+              <Command.Empty className="p-3 text-sm text-foreground-muted">
                 {locale === "vi" ? "Không có kết quả" : "No results"}
               </Command.Empty>
             )}
@@ -124,11 +121,11 @@ export function DocsSearch({ locale }: { locale: Locale }) {
                 key={r.slug}
                 value={r.slug}
                 onSelect={() => select(r.slug)}
-                className="flex cursor-pointer items-center justify-between rounded px-3 py-2 text-sm aria-selected:bg-orange-50 aria-selected:text-orange-700"
+                className="flex cursor-pointer items-center justify-between rounded-[var(--radius-sm)] px-3 py-2 text-sm text-foreground aria-selected:bg-surface-hover"
               >
                 <span className="font-medium">{r.title}</span>
                 <span
-                  className="ml-2 text-xs text-gray-400"
+                  className="ml-2 font-mono text-[11px] text-foreground-subtle"
                   translate="no"
                 >
                   {r.slug}

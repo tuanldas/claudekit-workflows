@@ -4,18 +4,18 @@ import { uiStrings } from "@/i18n/translations";
 
 export function SidebarHeader({ locale }: { locale: Locale }) {
   return (
-    <div className="flex h-14 items-center gap-2 border-b border-gray-200 px-4">
+    <div className="flex h-13 items-center gap-2 border-b border-border px-4">
       <Link
         href={`/${locale}/workflows`}
-        className="flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:outline-none"
+        className="flex items-center gap-2 rounded-[var(--radius-sm)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       >
         <span
-          className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500 text-sm font-bold text-white"
+          className="flex h-7 w-7 items-center justify-center rounded-[var(--radius-sm)] bg-accent text-[11px] font-bold tracking-tight text-accent-foreground"
           translate="no"
         >
           CK
         </span>
-        <span className="text-sm font-semibold text-gray-900">
+        <span className="text-sm font-semibold tracking-tight text-foreground">
           {uiStrings.appTitle[locale]}
         </span>
       </Link>

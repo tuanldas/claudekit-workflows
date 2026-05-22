@@ -17,7 +17,7 @@ export function SkillDetailPage({ skill, content }: Props) {
       <SkillHeader skill={skill} />
       <article
         data-docs-content
-        className="prose prose-slate max-w-none dark:prose-invert"
+        className="prose prose-zinc max-w-none dark:prose-invert prose-headings:text-foreground prose-p:text-foreground-muted prose-strong:text-foreground prose-li:text-foreground-muted prose-a:text-accent prose-a:no-underline hover:prose-a:underline"
       >
         {content}
       </article>

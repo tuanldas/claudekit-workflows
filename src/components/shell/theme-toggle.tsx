@@ -22,7 +22,7 @@ export function ThemeToggle({ locale }: { locale: Locale }) {
       onClick={() => setTheme(NEXT[theme])}
       aria-label={ariaLabel}
       title={ariaLabel}
-      className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border border-gray-200 bg-white text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-50"
+      className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-[var(--radius-md)] border border-border bg-surface text-foreground-muted transition-colors hover:border-border-strong hover:bg-surface-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       {theme === "light" && <SunIcon />}
       {theme === "dark" && <MoonIcon />}

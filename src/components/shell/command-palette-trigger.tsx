@@ -2,6 +2,7 @@
 
 import type { Locale } from "@/types/workflow";
 import { uiStrings } from "@/i18n/translations";
+import { Kbd } from "@/components/ui";
 import { useCommandPalette } from "./command-palette-context";
 
 export function CommandPaletteTrigger({ locale }: { locale: Locale }) {
@@ -11,7 +12,7 @@ export function CommandPaletteTrigger({ locale }: { locale: Locale }) {
       type="button"
       onClick={openPalette}
       aria-label={uiStrings.palette.placeholder[locale]}
-      className="inline-flex h-8 items-center gap-2 rounded-md border border-gray-200 bg-white px-2.5 text-xs text-gray-500 transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:ring-offset-2 focus-visible:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+      className="inline-flex h-8 cursor-pointer items-center gap-2 rounded-[var(--radius-md)] border border-border bg-surface px-2.5 text-xs text-foreground-muted transition-colors hover:border-border-strong hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <svg
         width="12"
@@ -28,12 +29,9 @@ export function CommandPaletteTrigger({ locale }: { locale: Locale }) {
       <span className="hidden sm:inline">
         {uiStrings.topbar.searchPlaceholder[locale]}
       </span>
-      <kbd
-        className="hidden rounded border border-gray-200 bg-gray-50 px-1 font-mono text-[10px] text-gray-500 sm:inline dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
-        translate="no"
-      >
+      <Kbd className="hidden sm:inline-flex">
         {uiStrings.topbar.searchHint[locale]}
-      </kbd>
+      </Kbd>
     </button>
   );
 }

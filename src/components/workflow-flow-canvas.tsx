@@ -17,21 +17,18 @@ import "@xyflow/react/dist/style.css";
 import type { Workflow } from "@/types/workflow";
 import { useLocale } from "@/i18n/language-context";
 
-const phaseColors = [
-  { border: "border-t-rose-500", bg: "bg-rose-50", text: "text-rose-700" },
-  { border: "border-t-amber-500", bg: "bg-amber-50", text: "text-amber-700" },
-  {
-    border: "border-t-emerald-500",
-    bg: "bg-emerald-50",
-    text: "text-emerald-700",
-  },
-  { border: "border-t-sky-500", bg: "bg-sky-50", text: "text-sky-700" },
-  {
-    border: "border-t-violet-500",
-    bg: "bg-violet-50",
-    text: "text-violet-700",
-  },
-  { border: "border-t-pink-500", bg: "bg-pink-50", text: "text-pink-700" },
+/**
+ * Top-border colors cycled per phase to visually differentiate nodes. Kept as
+ * a rainbow on purpose — each phase has a distinct hue — but tones are
+ * desaturated so they sit harmoniously with the cinnabar accent system.
+ */
+const phaseTopColors = [
+  "var(--color-accent)",
+  "var(--color-warning)",
+  "var(--color-success)",
+  "#6366f1", // indigo
+  "#a855f7", // violet
+  "#ec4899", // pink
 ];
 
 type PhaseNodeData = {
@@ -42,27 +39,28 @@ type PhaseNodeData = {
 
 function PhaseNode({ data }: NodeProps) {
   const d = data as PhaseNodeData;
-  const colors = phaseColors[d.colorIndex % phaseColors.length];
+  const topColor = phaseTopColors[d.colorIndex % phaseTopColors.length];
 
   return (
     <div
-      className={`min-w-[180px] rounded-md border border-t-4 border-gray-200 bg-white px-3 py-2 shadow-sm ${colors.border}`}
+      style={{ borderTopColor: topColor }}
+      className="min-w-[180px] rounded-[var(--radius-md)] border border-t-[3px] border-border bg-background px-3 py-2 shadow-sm"
     >
       <Handle
         type="target"
         position={Position.Left}
-        className="!h-2 !w-2 !border-0 !bg-gray-300"
+        className="!size-2 !border-0"
+        style={{ background: "var(--color-foreground-subtle)" }}
       />
-      <div className="text-sm font-semibold text-gray-900">{d.title}</div>
-      <code
-        className={`mt-1 inline-block rounded px-1.5 py-0.5 text-[10px] font-mono ${colors.bg} ${colors.text}`}
-      >
+      <div className="text-sm font-semibold text-foreground">{d.title}</div>
+      <code className="mt-1 inline-block font-mono text-[11px] text-foreground-muted">
         {d.command}
       </code>
       <Handle
         type="source"
         position={Position.Right}
-        className="!h-2 !w-2 !border-0 !bg-gray-300"
+        className="!size-2 !border-0"
+        style={{ background: "var(--color-foreground-subtle)" }}
       />
     </div>
   );
@@ -98,18 +96,28 @@ export function WorkflowFlowCanvas({ workflow }: WorkflowFlowCanvasProps) {
       type: "smoothstep",
       animated: false,
       label: workflow.steps[i]?.label[locale] ?? "",
-      labelStyle: { fontSize: 10, fill: "#6b7280", fontWeight: 500 },
-      labelBgStyle: { fill: "white" },
+      labelStyle: {
+        fontSize: 10,
+        fill: "var(--color-foreground-muted)",
+        fontWeight: 500,
+      },
+      labelBgStyle: { fill: "var(--color-background)" },
       labelBgPadding: [4, 2],
-      style: { stroke: "#d1d5db", strokeWidth: 1.5 },
-      markerEnd: { type: MarkerType.ArrowClosed, color: "#d1d5db" },
+      style: {
+        stroke: "var(--color-border-strong)",
+        strokeWidth: 1.5,
+      },
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        color: "var(--color-border-strong)",
+      },
     }));
 
     return { nodes, edges };
   }, [workflow, locale]);
 
   return (
-    <div className="h-[420px] w-full overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+    <div className="h-[420px] w-full overflow-hidden rounded-[var(--radius-md)] border border-border bg-background">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -120,10 +128,14 @@ export function WorkflowFlowCanvas({ workflow }: WorkflowFlowCanvasProps) {
         minZoom={0.5}
         maxZoom={2}
       >
-        <Background gap={20} size={1} color="#e5e7eb" />
+        <Background gap={20} size={1} color="var(--color-border)" />
         <Controls
           showInteractive={false}
-          className="!border-gray-200 !bg-white !shadow-sm"
+          style={{
+            background: "var(--color-surface-elevated)",
+            border: "1px solid var(--color-border)",
+            borderRadius: "var(--radius-sm)",
+          }}
         />
       </ReactFlow>
     </div>

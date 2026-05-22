@@ -105,9 +105,9 @@ export function CommandPalette() {
       }}
       label={uiStrings.palette.label[locale]}
       shouldFilter={false}
-      className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 p-4 sm:pt-[12vh]"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 p-4 backdrop-blur-[2px] sm:pt-[12vh]"
     >
-      <div className="w-full max-w-2xl overflow-hidden rounded-lg bg-white shadow-2xl dark:bg-gray-900">
+      <div className="w-full max-w-2xl overflow-hidden rounded-[var(--radius-lg)] border border-border-strong bg-surface-elevated shadow-2xl">
         <Command.Input
           value={query}
           onValueChange={setQuery}
@@ -115,11 +115,11 @@ export function CommandPalette() {
           autoFocus
           spellCheck={false}
           autoComplete="off"
-          className="w-full border-b border-gray-200 px-4 py-3 text-sm focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+          className="w-full border-b border-border bg-transparent px-4 py-3 text-sm text-foreground placeholder:text-foreground-subtle focus:outline-none"
         />
         <Command.List className="max-h-[60vh] overflow-y-auto p-2">
           {!query.trim() && recent.length === 0 && client?.isEmpty && (
-            <div className="p-3 text-sm text-amber-700 dark:text-amber-300">
+            <div className="rounded-[var(--radius-sm)] bg-warning-subtle p-3 text-sm text-warning">
               {uiStrings.palette.emptyIndex[locale]}
             </div>
           )}
@@ -127,12 +127,12 @@ export function CommandPalette() {
           {!query.trim() && recent.length > 0 && (
             <Command.Group
               heading={
-                <span className="flex items-center justify-between">
+                <span className="flex items-center justify-between px-3 py-1 text-[11px] font-semibold tracking-wider text-foreground-subtle uppercase">
                   <span>{uiStrings.palette.recent[locale]}</span>
                   <button
                     type="button"
                     onClick={handleClearRecent}
-                    className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                    className="text-[11px] normal-case font-normal tracking-normal text-foreground-subtle transition-colors hover:text-foreground"
                   >
                     {uiStrings.palette.clearRecent[locale]}
                   </button>
@@ -144,9 +144,11 @@ export function CommandPalette() {
                   key={q}
                   value={`recent-${q}`}
                   onSelect={() => selectRecent(q)}
-                  className="flex cursor-pointer items-center gap-2 rounded px-3 py-2 text-sm aria-selected:bg-orange-50 aria-selected:text-orange-700 dark:aria-selected:bg-orange-900/30 dark:aria-selected:text-orange-200"
+                  className="flex cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-sm text-foreground aria-selected:bg-surface-hover"
                 >
-                  <ClockIcon />
+                  <span className="text-foreground-subtle">
+                    <ClockIcon />
+                  </span>
                   <span>{q}</span>
                 </Command.Item>
               ))}
@@ -154,7 +156,7 @@ export function CommandPalette() {
           )}
 
           {query.trim() && !hasResults && client && !client.isEmpty && (
-            <Command.Empty className="p-3 text-sm text-gray-500 dark:text-gray-400">
+            <Command.Empty className="p-3 text-sm text-foreground-muted">
               {uiStrings.palette.empty[locale]}
             </Command.Empty>
           )}
@@ -187,7 +189,7 @@ export function CommandPalette() {
           )}
         </Command.List>
 
-        <div className="flex items-center justify-end gap-3 border-t border-gray-200 px-3 py-2 text-[11px] text-gray-400 dark:border-gray-700 dark:text-gray-500">
+        <div className="flex items-center justify-end gap-3 border-t border-border bg-surface px-3 py-2 text-[11px] text-foreground-subtle">
           <span>{uiStrings.palette.footerNav[locale]}</span>
           <span>{uiStrings.palette.footerSelect[locale]}</span>
           <span>{uiStrings.palette.footerClose[locale]}</span>
@@ -209,19 +211,25 @@ function ResultGroup({
   onSelect: (r: SearchResult) => void;
 }) {
   return (
-    <Command.Group heading={heading}>
+    <Command.Group
+      heading={
+        <span className="block px-3 py-1 text-[11px] font-semibold tracking-wider text-foreground-subtle uppercase">
+          {heading}
+        </span>
+      }
+    >
       {results.map((r) => (
         <Command.Item
           key={`${r.kind}:${r.slug}`}
           value={`${r.kind}:${r.slug}`}
           onSelect={() => onSelect(r)}
-          className="flex cursor-pointer items-start gap-2 rounded px-3 py-2 text-sm aria-selected:bg-orange-50 aria-selected:text-orange-700 dark:aria-selected:bg-orange-900/30 dark:aria-selected:text-orange-200"
+          className="flex cursor-pointer items-start gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-sm text-foreground aria-selected:bg-surface-hover"
         >
-          <span className="mt-0.5 text-gray-400">{icon}</span>
+          <span className="mt-0.5 text-foreground-subtle">{icon}</span>
           <span className="min-w-0 flex-1">
             <span className="block truncate font-medium">{r.title}</span>
             {r.subtitle && (
-              <span className="block truncate text-xs text-gray-500 dark:text-gray-400">
+              <span className="block truncate text-xs text-foreground-muted">
                 {r.subtitle}
               </span>
             )}
@@ -253,8 +261,6 @@ let lastSerialized = "";
 function getRecentSnapshot(): string[] {
   const current = getRecentSearches();
   const serialized = JSON.stringify(current);
-  // Keep referential stability when the underlying list is unchanged so that
-  // useSyncExternalStore doesn't trigger spurious re-renders.
   if (serialized !== lastSerialized) {
     recentSnapshot = current;
     lastSerialized = serialized;
@@ -262,8 +268,6 @@ function getRecentSnapshot(): string[] {
   return recentSnapshot;
 }
 
-// Stable empty array so useSyncExternalStore doesn't flag a fresh server
-// snapshot on every render and trip its infinite-loop guard.
 const EMPTY_RECENT: string[] = [];
 
 function getRecentServerSnapshot(): string[] {
@@ -276,10 +280,8 @@ function notifyRecentChanged() {
 }
 
 function slugTail(slug: string): string {
-  // workflows? selected=foo  ->  foo
   const qmark = slug.indexOf("=");
   if (qmark >= 0) return slug.slice(qmark + 1);
-  // skills/foo -> foo
   const slash = slug.lastIndexOf("/");
   if (slash >= 0) return slug.slice(slash + 1);
   return slug;

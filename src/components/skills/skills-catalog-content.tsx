@@ -7,6 +7,7 @@ import { uiStrings } from "@/i18n/translations";
 import { pluginGroupKey } from "@/lib/skill-plugin";
 import { PageShell } from "@/components/shell/page-shell";
 import { PageHeader } from "@/components/shell/page-header";
+import { Input } from "@/components/ui";
 import { SkillCard } from "./skill-card";
 
 interface Props {
@@ -68,18 +69,32 @@ export function SkillsCatalogContent({ skills, locale }: Props) {
       />
 
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={uiStrings.skills.searchPlaceholder[locale]}
-          className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none sm:max-w-sm dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100"
-        />
+        <div className="w-full sm:max-w-sm">
+          <Input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={uiStrings.skills.searchPlaceholder[locale]}
+            leadingIcon={
+              <svg
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="9" cy="9" r="6" />
+                <path d="m17 17-3.5-3.5" />
+              </svg>
+            }
+          />
+        </div>
         <select
           aria-label={uiStrings.skills.groupFilter[locale]}
           value={group}
           onChange={(e) => setGroup(e.target.value)}
-          className="rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100"
+          className="h-9 rounded-[var(--radius-md)] border border-border bg-surface px-3 text-sm text-foreground transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-ring)]"
         >
           <option value={GROUP_ALL}>
             {uiStrings.skills.groupAll[locale]} ({skills.length})
@@ -107,7 +122,7 @@ export function SkillsCatalogContent({ skills, locale }: Props) {
 
 function EmptyState({ message }: { message: string }) {
   return (
-    <div className="rounded-lg border border-dashed border-gray-300 bg-white px-6 py-12 text-center text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-400">
+    <div className="rounded-[var(--radius-lg)] border border-dashed border-border bg-surface px-6 py-12 text-center text-sm text-foreground-muted">
       {message}
     </div>
   );

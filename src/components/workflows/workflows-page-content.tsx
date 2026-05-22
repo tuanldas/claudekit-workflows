@@ -85,7 +85,7 @@ export function WorkflowsPageContent() {
         <div className="w-full sm:max-w-sm">
           <SearchBar value={search} onChange={handleSearchChange} />
         </div>
-        <span className="text-sm text-gray-500 dark:text-gray-400">
+        <span className="text-xs font-medium text-foreground-muted">
           {uiStrings.workflowsCount[locale](filtered.length)}
         </span>
       </div>
@@ -113,7 +113,7 @@ export function WorkflowsPageContent() {
       </div>
 
       {filtered.length === 0 && (
-        <div className="py-20 text-center text-gray-400">
+        <div className="rounded-[var(--radius-lg)] border border-dashed border-border bg-surface py-20 text-center text-sm text-foreground-muted">
           {uiStrings.noResults[locale]}
         </div>
       )}

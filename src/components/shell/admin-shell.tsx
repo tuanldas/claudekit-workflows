@@ -52,7 +52,7 @@ function AdminShellInner({
   const { open, openDrawer, closeDrawer } = useMobileDrawer();
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-background">
       <Sidebar locale={locale} docsTree={docsTree} skills={skills} />
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar
@@ -60,7 +60,7 @@ function AdminShellInner({
           onMenuClick={openDrawer}
           menuLabel={locale === "vi" ? "Mở điều hướng" : "Open navigation"}
         />
-        <main className="flex-1 overflow-auto">{children}</main>
+        <main className="flex-1 overflow-auto bg-surface">{children}</main>
       </div>
       <MobileDrawer
         open={open}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/types/workflow";
+import { cn } from "@/lib/cn";
 
 interface Props {
   slug: string;
@@ -22,11 +23,12 @@ export function DocsSidebarItem({ slug, navTitle, locale, onNavigate }: Props) {
         href={href}
         onClick={onNavigate}
         aria-current={isActive ? "page" : undefined}
-        className={`block touch-manipulation rounded px-3 py-1.5 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:outline-none ${
+        className={cn(
+          "block touch-manipulation rounded-[var(--radius-sm)] px-3 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-ring)]",
           isActive
-            ? "bg-orange-50 font-medium text-orange-700"
-            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-        }`}
+            ? "bg-accent-subtle font-medium text-accent"
+            : "text-foreground-muted hover:bg-surface-hover hover:text-foreground",
+        )}
       >
         {navTitle}
       </Link>

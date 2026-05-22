@@ -23,19 +23,21 @@ describe("FloatingToc", () => {
     ).toBeInTheDocument();
   });
 
-  it("hides below the 2xl breakpoint via responsive classes", () => {
+  it("hides below the wide-viewport breakpoint via responsive classes", () => {
     document.body.innerHTML = `<article data-docs-content><h2 id="x">X</h2></article>`;
     render(<FloatingToc />);
     const aside = screen.getByRole("complementary", { name: /on this page/i });
     expect(aside.className).toMatch(/hidden/);
-    expect(aside.className).toMatch(/2xl:block/);
+    // Threshold raised to min-[1700px] so floating TOC only appears when there
+    // is enough room next to a max-w-6xl content column to avoid overlap.
+    expect(aside.className).toMatch(/min-\[1700px\]:block/);
   });
 
   it("positions itself fixed at the right edge of the viewport on wide screens", () => {
     document.body.innerHTML = `<article data-docs-content><h2 id="x">X</h2></article>`;
     render(<FloatingToc />);
     const aside = screen.getByRole("complementary", { name: /on this page/i });
-    expect(aside.className).toMatch(/2xl:fixed/);
-    expect(aside.className).toMatch(/2xl:right/);
+    expect(aside.className).toMatch(/min-\[1700px\]:fixed/);
+    expect(aside.className).toMatch(/min-\[1700px\]:right/);
   });
 });

@@ -12,7 +12,7 @@ interface Props {
 export function DocsSidebar({ tree, locale, onNavigate }: Props) {
   if (tree.sections.length === 0) {
     return (
-      <p className="px-3 py-2 text-sm text-gray-500">
+      <p className="px-3 py-2 text-sm text-foreground-muted">
         {locale === "vi" ? "Chưa có docs nào" : "No docs yet"}
       </p>
     );
@@ -22,7 +22,7 @@ export function DocsSidebar({ tree, locale, onNavigate }: Props) {
     <nav aria-label="Docs navigation" className="space-y-6 text-sm">
       {tree.sections.map((section) => (
         <section key={section.slug}>
-          <h3 className="mb-2 px-3 text-xs font-semibold tracking-wider text-gray-400 uppercase">
+          <h3 className="mb-2 px-3 text-[11px] font-semibold tracking-wider text-foreground-subtle uppercase">
             {section.title[locale]}
           </h3>
           <ul className="space-y-0.5">

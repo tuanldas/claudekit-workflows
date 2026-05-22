@@ -52,7 +52,7 @@ export default async function SkillDetailRoute({ params }: PageProps) {
   const content = MDXContent ? (
     <MDXContent components={docsMDXComponents} />
   ) : (
-    <pre className="overflow-x-auto rounded-md bg-gray-100 p-4 text-sm dark:bg-gray-900">
+    <pre className="overflow-x-auto rounded-[var(--radius-md)] border border-border bg-surface p-4 text-sm text-foreground">
       {source}
     </pre>
   );

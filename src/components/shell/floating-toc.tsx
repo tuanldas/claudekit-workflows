@@ -12,7 +12,7 @@ export function FloatingToc() {
     <aside
       role="complementary"
       aria-label="On this page"
-      className="hidden 2xl:fixed 2xl:top-20 2xl:right-8 2xl:block 2xl:max-h-[calc(100vh-6rem)] 2xl:w-56 2xl:overflow-y-auto"
+      className="hidden min-[1700px]:fixed min-[1700px]:top-20 min-[1700px]:right-8 min-[1700px]:block min-[1700px]:max-h-[calc(100vh-6rem)] min-[1700px]:w-56 min-[1700px]:overflow-y-auto"
     >
       <DocsToc />
     </aside>
