@@ -1,7 +1,7 @@
-import { DocsSidebar } from "@/components/docs/docs-sidebar";
 import type { DocsTree } from "@/types/docs";
 import type { Locale } from "@/types/workflow";
 import { uiStrings } from "@/i18n/translations";
+import { SidebarDocsTreeClient } from "./sidebar-docs-tree-client";
 
 interface Props {
   locale: Locale;
@@ -17,9 +17,5 @@ export function SidebarDocsTree({ locale, tree }: Props) {
       </div>
     );
   }
-  return (
-    <div className="px-2">
-      <DocsSidebar tree={tree} locale={locale} />
-    </div>
-  );
+  return <SidebarDocsTreeClient locale={locale} tree={tree} />;
 }

@@ -6,6 +6,8 @@ import type { Locale, WorkflowCategory } from "@/types/workflow";
 import { categoryOrder } from "@/data/workflows";
 import { uiStrings } from "@/i18n/translations";
 import { normalizeCategory, categoryLabel } from "@/lib/category-utils";
+import { useSidebarScroll } from "@/lib/use-sidebar-scroll";
+import { SECTION_KEYS } from "@/lib/sidebar-scroll-storage";
 
 function buildHref(locale: Locale, category: WorkflowCategory): string {
   if (category === "all") return `/${locale}/workflows`;
@@ -15,9 +17,10 @@ function buildHref(locale: Locale, category: WorkflowCategory): string {
 export function SidebarWorkflowsNav({ locale }: { locale: Locale }) {
   const params = useSearchParams();
   const active = normalizeCategory(params?.get("category") ?? null);
+  const scrollRef = useSidebarScroll<HTMLDivElement>(SECTION_KEYS.WORKFLOWS);
 
   return (
-    <div className="px-2">
+    <div ref={scrollRef} className="h-full overflow-y-auto px-2">
       <h3 className="mb-2 px-3 text-xs font-semibold tracking-wider text-gray-400 uppercase">
         {uiStrings.nav.workflows[locale]}
       </h3>
