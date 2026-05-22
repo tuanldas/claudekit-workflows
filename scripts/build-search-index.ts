@@ -3,16 +3,20 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { glob } from "glob";
 import matter from "gray-matter";
+import { workflows } from "../src/data/workflows";
 
 const LOCALES = ["vi", "en"] as const;
 type Locale = (typeof LOCALES)[number];
+
+export type IndexableKind = "doc" | "skill" | "workflow";
 
 interface IndexableDoc {
   id: number;
   slug: string;
   title: string;
   searchable: string;
-  kind?: "doc" | "skill";
+  kind: IndexableKind;
+  subtitle?: string;
   group?: string;
 }
 
@@ -39,13 +43,14 @@ async function buildIndex(locale: Locale) {
     files = [];
   }
 
-  const docs: IndexableDoc[] = [];
+  const entries: IndexableDoc[] = [];
+  let nextId = 0;
 
-  for (let i = 0; i < files.length; i++) {
-    const full = path.join(docsRoot, files[i]);
+  for (const file of files) {
+    const full = path.join(docsRoot, file);
     const raw = await fs.readFile(full, "utf-8");
     const { content, data } = matter(raw);
-    const slug = files[i].replace(/\.md$/, "");
+    const slug = file.replace(/\.md$/, "");
 
     const h1 =
       content.match(/^#\s+(.+)$/m)?.[1] ??
@@ -61,29 +66,64 @@ async function buildIndex(locale: Locale) {
       .replace(/\s+/g, " ")
       .slice(0, 5000);
 
-    // Boost title via repetition
+    const excerpt = body.slice(0, 140).trim();
+
+    // Boost title via repetition.
     const searchable = `${h1} ${h1} ${headings} ${body}`;
-    docs.push({ id: i, slug, title: h1, searchable });
+    entries.push({
+      id: nextId++,
+      slug,
+      title: h1,
+      searchable,
+      kind: "doc",
+      subtitle: excerpt,
+    });
   }
 
   const skills = await loadSkillsForSearch();
-  let nextId = docs.length;
   for (const sk of skills) {
     const tagText = sk.tags.join(" ");
     const searchable = `${sk.name} ${sk.name} ${sk.description} ${tagText} ${sk.excerpt}`;
-    docs.push({
+    entries.push({
       id: nextId++,
       slug: `skills/${sk.id}`,
       title: sk.name,
       searchable,
       kind: "skill",
+      subtitle: sk.description.slice(0, 140),
       group: sk.group,
     });
   }
 
-  await writeOutput(locale, docs);
+  for (const wf of workflows) {
+    const title = wf.title[locale] || wf.title.vi;
+    const description = wf.description[locale] || wf.description.vi;
+    const commandList = wf.steps.map((s) => s.command).join(" ");
+    const phaseNames = wf.phases
+      .map((p) => p.name[locale] || p.name.vi)
+      .join(" ");
+    const searchable =
+      `${title} ${title} ${wf.id} ${description} ${commandList} ${phaseNames}`.trim();
+    entries.push({
+      id: nextId++,
+      slug: `workflows?selected=${wf.id}`,
+      title,
+      searchable,
+      kind: "workflow",
+      subtitle: description.slice(0, 140),
+      group: wf.category,
+    });
+  }
+
+  await writeOutput(locale, entries);
+  const counts = entries.reduce<Record<string, number>>((acc, e) => {
+    acc[e.kind] = (acc[e.kind] ?? 0) + 1;
+    return acc;
+  }, {});
   console.log(
-    `[search-index] ${locale}: ${docs.length} entries indexed (${skills.length} skills)`,
+    `[search-index] ${locale}: ${entries.length} entries (${
+      counts.doc ?? 0
+    } docs, ${counts.skill ?? 0} skills, ${counts.workflow ?? 0} workflows)`,
   );
 }
 
