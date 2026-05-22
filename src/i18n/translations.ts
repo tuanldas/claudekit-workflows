@@ -69,6 +69,11 @@ export const uiStrings = {
     searchHint: { vi: "Cmd+K", en: "Cmd+K" },
     themeToggle: { vi: "Đổi giao diện", en: "Toggle theme" },
   },
+  theme: {
+    light: { vi: "Sáng", en: "Light" },
+    dark: { vi: "Tối", en: "Dark" },
+    system: { vi: "Theo hệ thống", en: "System" },
+  },
   breadcrumb: {
     home: { vi: "Trang chủ", en: "Home" },
     workflows: { vi: "Workflows", en: "Workflows" },

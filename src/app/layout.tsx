@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { getThemeInitScript } from "@/lib/theme-init-script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,12 +19,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  // Project light-only hiện tại; dark mode out of scope. "only light" (strict
-  // opt-out) ngăn Chrome force-dark / macOS auto-darken invert background mà
-  // không invert shiki's inline foreground colors → dark bg + dark text issue.
-  // Khi scope dark mode lại: colorScheme "light dark" + 2 themeColor entries.
-  colorScheme: "only light",
-  themeColor: "#ffffff",
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
 };
 
 export default function RootLayout({
@@ -31,13 +31,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // lang attribute is generic; [locale]/layout.tsx sẽ wrap content với LanguageProvider
-  // và truyền locale chính xác xuống. Trang root `/` chỉ redirect → /vi.
   return (
     <html
       lang="vi"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{ __html: getThemeInitScript() }}
+        />
+      </head>
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );

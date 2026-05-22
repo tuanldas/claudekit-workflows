@@ -1,12 +1,18 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@variant dark (&:where(.dark, .dark *));
+
 :root {
-  /* "only light" strict opt-out — ngăn Chrome force-dark / macOS auto-darken
-     invert background; inline shiki colors không bị half-invert (dark-on-dark). */
-  color-scheme: only light;
+  color-scheme: light;
   --background: #ffffff;
   --foreground: #171717;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -16,13 +22,24 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Dark mode out of scope per plan — full dark theme cần DESIGN.md spec
-   (sidebar, cards, prose colors phải tất cả flip). Khi scope dark mode lại,
-   restore @media (prefers-color-scheme: dark) ở đây + shiki dual theme +
-   viewport.colorScheme/themeColor dark variant. */
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Shiki dual theme swap — rehype-shiki with `themes: { light, dark }` +
+   `defaultColor: false` emits CSS vars --shiki-light, --shiki-dark,
+   --shiki-light-bg, --shiki-dark-bg on every token. Default = light; .dark
+   ancestor flips both color + background to the dark variant. */
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+.dark .shiki,
+.dark .shiki span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
 }
