@@ -9,27 +9,27 @@ interface Props {
 export function SkillHeader({ skill }: Props) {
   const plugin = derivePlugin(skill);
   return (
-    <header className="mb-6">
-      <div className="mb-3 flex flex-wrap items-center gap-2">
+    <header className="mb-8 border-b border-gray-200 pb-6 dark:border-gray-800">
+      <div className="mb-2 flex flex-wrap items-center gap-2">
         {plugin && <SkillPluginBadge plugin={plugin} />}
-        <span className="text-xs text-gray-500 dark:text-gray-400">
+        <span className="text-xs font-medium tracking-wider text-orange-600 uppercase dark:text-orange-400">
           {skill.group}
         </span>
       </div>
-      <h1 className="mb-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+      <h1 className="text-3xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
         {skill.name}
       </h1>
       {skill.description && (
-        <p className="text-base text-gray-600 dark:text-gray-400">
+        <p className="mt-2 max-w-2xl text-sm text-gray-500 dark:text-gray-400">
           {skill.description}
         </p>
       )}
       {skill.tags.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-1">
+        <div className="mt-4 flex flex-wrap gap-1.5">
           {skill.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded bg-gray-100 px-1.5 py-0.5 text-xs text-gray-600 dark:bg-gray-800 dark:text-gray-400"
+              className="rounded-md bg-gray-100 px-2 py-0.5 text-xs text-gray-700 dark:bg-gray-800 dark:text-gray-300"
             >
               {tag}
             </span>

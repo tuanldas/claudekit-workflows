@@ -79,26 +79,8 @@ describe("WorkflowsPageContent", () => {
     }
   });
 
-  it("updates URL when category tab clicked", async () => {
-    const user = userEvent.setup();
-    renderPage("vi");
-    const tab = screen.getByRole("button", { name: /debug & fix/i });
-    await user.click(tab);
-    expect(replaceMock).toHaveBeenCalled();
-    const lastCall = replaceMock.mock.calls.at(-1)?.[0] as string;
-    expect(lastCall).toContain("category=debugging-fixes");
-  });
-
-  it("removes category param when 'all' tab clicked", async () => {
-    setQuery({ category: "debugging-fixes" });
-    const user = userEvent.setup();
-    renderPage("vi");
-    const allTab = screen.getByRole("button", { name: /^tất cả$/i });
-    await user.click(allTab);
-    expect(replaceMock).toHaveBeenCalled();
-    const lastCall = replaceMock.mock.calls.at(-1)?.[0] as string;
-    expect(lastCall).not.toContain("category=debugging-fixes");
-  });
+  // Category navigation moved to sidebar (SidebarWorkflowsNav); see
+  // sidebar-workflows-nav.test.tsx for category routing coverage.
 
   it("expands detail when workflow card clicked", async () => {
     const user = userEvent.setup();
@@ -118,13 +100,11 @@ describe("WorkflowsPageContent", () => {
     ).toBeInTheDocument();
   });
 
-  it("does not render duplicate app title header (shell topbar owns it)", () => {
+  it("renders unified PageHeader with title (legacy logo+brand block removed)", () => {
     renderPage("vi");
-    // The legacy header had this exact app subtitle; ensure it's gone
+    // Page header H1 should render the section title
     expect(
-      screen.queryByText(
-        /Học ClaudeKit qua các workflow trực quan, tương tác được/i,
-      ),
-    ).not.toBeInTheDocument();
+      screen.getByRole("heading", { level: 1, name: /^workflows$/i }),
+    ).toBeInTheDocument();
   });
 });

@@ -5,6 +5,8 @@ import type { Skill } from "@/types/skill";
 import type { Locale } from "@/types/workflow";
 import { uiStrings } from "@/i18n/translations";
 import { pluginGroupKey } from "@/lib/skill-plugin";
+import { PageShell } from "@/components/shell/page-shell";
+import { PageHeader } from "@/components/shell/page-header";
 import { SkillCard } from "./skill-card";
 
 interface Props {
@@ -35,57 +37,61 @@ export function SkillsCatalogContent({ skills, locale }: Props) {
     return skills.filter((s) => {
       if (group !== GROUP_ALL && pluginGroupKey(s) !== group) return false;
       if (!q) return true;
-      const haystack = `${s.name} ${s.description} ${s.tags.join(" ")}`.toLowerCase();
+      const haystack =
+        `${s.name} ${s.description} ${s.tags.join(" ")}`.toLowerCase();
       return haystack.includes(q);
     });
   }, [skills, group, deferredQuery]);
 
+  const catalogDescription =
+    locale === "vi"
+      ? `${skills.length} skills sẵn sàng để khám phá.`
+      : `${skills.length} skills ready to explore.`;
+
   if (skills.length === 0) {
     return (
-      <section className="px-4 py-8">
-        <h1 className="mb-6 text-2xl font-bold text-gray-900 dark:text-gray-100">
-          {uiStrings.skills.title[locale]}
-        </h1>
+      <PageShell>
+        <PageHeader
+          title={uiStrings.skills.title[locale]}
+          description={uiStrings.skills.emptyCi[locale]}
+        />
         <EmptyState message={uiStrings.skills.emptyCi[locale]} />
-      </section>
+      </PageShell>
     );
   }
 
   return (
-    <section className="px-4 py-6 lg:px-8">
-      <h1 className="mb-6 text-2xl font-bold text-gray-900 dark:text-gray-100">
-        {uiStrings.skills.title[locale]}
-      </h1>
-
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={uiStrings.skills.searchPlaceholder[locale]}
-          className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100 sm:max-w-xs"
-        />
-        <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-          <span className="sr-only sm:not-sr-only">
-            {uiStrings.skills.groupFilter[locale]}
-          </span>
-          <select
-            aria-label={uiStrings.skills.groupFilter[locale]}
-            value={group}
-            onChange={(e) => setGroup(e.target.value)}
-            className="rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100"
-          >
-            <option value={GROUP_ALL}>
-              {uiStrings.skills.groupAll[locale]} ({skills.length})
-            </option>
-            {groupOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.value} ({opt.count})
+    <PageShell>
+      <PageHeader
+        title={uiStrings.skills.title[locale]}
+        description={catalogDescription}
+        actions={
+          <>
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={uiStrings.skills.searchPlaceholder[locale]}
+              className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none sm:w-64 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100"
+            />
+            <select
+              aria-label={uiStrings.skills.groupFilter[locale]}
+              value={group}
+              onChange={(e) => setGroup(e.target.value)}
+              className="rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100"
+            >
+              <option value={GROUP_ALL}>
+                {uiStrings.skills.groupAll[locale]} ({skills.length})
               </option>
-            ))}
-          </select>
-        </label>
-      </div>
+              {groupOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.value} ({opt.count})
+                </option>
+              ))}
+            </select>
+          </>
+        }
+      />
 
       {filtered.length === 0 ? (
         <EmptyState message={uiStrings.skills.empty[locale]} />
@@ -96,7 +102,7 @@ export function SkillsCatalogContent({ skills, locale }: Props) {
           ))}
         </div>
       )}
-    </section>
+    </PageShell>
   );
 }
 

@@ -6,8 +6,9 @@ import type { WorkflowCategory } from "@/types/workflow";
 import { workflows } from "@/data/workflows";
 import { uiStrings } from "@/i18n/translations";
 import { useLocale } from "@/i18n/language-context";
-import { normalizeCategory } from "@/lib/category-utils";
-import { CategoryTabs } from "@/components/category-tabs";
+import { normalizeCategory, categoryLabel } from "@/lib/category-utils";
+import { PageShell } from "@/components/shell/page-shell";
+import { PageHeader } from "@/components/shell/page-header";
 import { SearchBar } from "@/components/search-bar";
 import { WorkflowCard } from "@/components/workflow-card";
 import { WorkflowDetail } from "@/components/workflow-detail";
@@ -42,15 +43,6 @@ export function WorkflowsPageContent() {
 
   const basePath = pathname ?? `/${locale}/workflows`;
 
-  const handleCategoryChange = useCallback(
-    (category: WorkflowCategory) => {
-      router.replace(`${basePath}${buildQuery({ category })}`, {
-        scroll: false,
-      });
-    },
-    [router, buildQuery, basePath],
-  );
-
   const handleSearchChange = useCallback(
     (value: string) => {
       router.replace(`${basePath}${buildQuery({ q: value })}`, {
@@ -76,17 +68,23 @@ export function WorkflowsPageContent() {
 
   const selectedWorkflow = workflows.find((w) => w.id === selectedId);
 
+  const activeLabel =
+    activeCategory === "all"
+      ? null
+      : categoryLabel(activeCategory, locale);
+
   return (
-    <div className="mx-auto max-w-7xl px-6 py-8">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <CategoryTabs
-          active={activeCategory}
-          onChange={handleCategoryChange}
-        />
-        <div className="w-full sm:w-72">
-          <SearchBar value={search} onChange={handleSearchChange} />
-        </div>
-      </div>
+    <PageShell>
+      <PageHeader
+        eyebrow={activeLabel ?? undefined}
+        title={uiStrings.appTitle[locale]}
+        description={uiStrings.appSubtitle[locale]}
+        actions={
+          <div className="w-full sm:w-72">
+            <SearchBar value={search} onChange={handleSearchChange} />
+          </div>
+        }
+      />
 
       {selectedWorkflow && (
         <div className="mb-6">
@@ -97,7 +95,7 @@ export function WorkflowsPageContent() {
         </div>
       )}
 
-      <div className="mb-4 text-sm text-gray-400">
+      <div className="mb-4 text-sm text-gray-500 dark:text-gray-400">
         {uiStrings.workflowsCount[locale](filtered.length)}
       </div>
 
@@ -119,6 +117,6 @@ export function WorkflowsPageContent() {
           {uiStrings.noResults[locale]}
         </div>
       )}
-    </div>
+    </PageShell>
   );
 }

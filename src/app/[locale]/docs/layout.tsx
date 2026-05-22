@@ -1,4 +1,5 @@
 import { FloatingToc } from "@/components/shell/floating-toc";
+import { PageShell } from "@/components/shell/page-shell";
 
 interface Props {
   children: React.ReactNode;
@@ -6,9 +7,9 @@ interface Props {
 
 export default function DocsLayout({ children }: Props) {
   return (
-    <div className="relative mx-auto max-w-3xl px-6 py-8 2xl:mx-0 2xl:max-w-none 2xl:pr-72">
-      {children}
+    <PageShell withToc>
+      <div className="max-w-3xl">{children}</div>
       <FloatingToc />
-    </div>
+    </PageShell>
   );
 }

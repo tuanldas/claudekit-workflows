@@ -94,9 +94,10 @@ describe("SkillsCatalogContent", () => {
 
   it("shows CI-aware empty state when skills array is empty", () => {
     render(<SkillsCatalogContent skills={[]} locale="vi" />);
+    // emptyCi appears in both PageHeader description and EmptyState body
     expect(
-      screen.getByText(/skills sync|chưa được|chưa cấu hình/i),
-    ).toBeInTheDocument();
+      screen.getAllByText(/skills sync|chưa được|chưa cấu hình/i).length,
+    ).toBeGreaterThan(0);
   });
 
   it("renders group filter options based on derived plugin", () => {
