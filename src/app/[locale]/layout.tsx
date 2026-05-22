@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import { LanguageProvider } from "@/i18n/language-context";
+import { ThemeProvider } from "@/lib/theme-context";
+import { AdminShell } from "@/components/shell/admin-shell";
 import { LOCALES } from "@/lib/locale-routing";
 import type { Locale } from "@/types/workflow";
 
@@ -18,6 +20,10 @@ export default async function LocaleLayout({
   if (!LOCALES.includes(locale as Locale)) notFound();
 
   return (
-    <LanguageProvider locale={locale as Locale}>{children}</LanguageProvider>
+    <LanguageProvider locale={locale as Locale}>
+      <ThemeProvider>
+        <AdminShell>{children}</AdminShell>
+      </ThemeProvider>
+    </LanguageProvider>
   );
 }

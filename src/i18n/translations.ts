@@ -57,6 +57,24 @@ export const uiStrings = {
       en: "Showing English version — Vietnamese translation coming soon.",
     },
   },
+  nav: {
+    workflows: { vi: "Tất cả workflows", en: "All workflows" },
+    docs: { vi: "Tài liệu", en: "Docs" },
+    skills: { vi: "Skills", en: "Skills" },
+    docsStub: { vi: "Docs nav (Phase 3)", en: "Docs nav (Phase 3)" },
+    skillsStub: { vi: "Skills nav (Phase 6)", en: "Skills nav (Phase 6)" },
+  },
+  topbar: {
+    searchPlaceholder: { vi: "Tìm kiếm…", en: "Search…" },
+    searchHint: { vi: "Cmd+K", en: "Cmd+K" },
+    themeToggle: { vi: "Đổi giao diện", en: "Toggle theme" },
+  },
+  breadcrumb: {
+    home: { vi: "Trang chủ", en: "Home" },
+    workflows: { vi: "Workflows", en: "Workflows" },
+    docs: { vi: "Docs", en: "Docs" },
+    skills: { vi: "Skills", en: "Skills" },
+  },
 } as const;
 
 export function t(s: LocalizedString, locale: Locale): string {

@@ -1,5 +1,10 @@
-import { WorkflowPage } from "@/components/workflow-page";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return <WorkflowPage />;
+export default async function LocaleRoot({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  redirect(`/${locale}/workflows`);
 }
