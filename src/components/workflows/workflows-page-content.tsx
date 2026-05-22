@@ -7,8 +7,7 @@ import { workflows } from "@/data/workflows";
 import { uiStrings } from "@/i18n/translations";
 import { useLocale } from "@/i18n/language-context";
 import { normalizeCategory, categoryLabel } from "@/lib/category-utils";
-import { PageShell } from "@/components/shell/page-shell";
-import { PageHeader } from "@/components/shell/page-header";
+import { CatalogTemplate } from "@/components/shell/catalog-template";
 import { SearchBar } from "@/components/search-bar";
 import { WorkflowCard } from "@/components/workflow-card";
 import { WorkflowDetail } from "@/components/workflow-detail";
@@ -69,54 +68,38 @@ export function WorkflowsPageContent() {
   const selectedWorkflow = workflows.find((w) => w.id === selectedId);
 
   const activeLabel =
-    activeCategory === "all"
-      ? null
-      : categoryLabel(activeCategory, locale);
+    activeCategory === "all" ? null : categoryLabel(activeCategory, locale);
 
   return (
-    <PageShell>
-      <PageHeader
-        eyebrow={activeLabel ?? undefined}
-        title={uiStrings.appTitle[locale]}
-        description={uiStrings.appSubtitle[locale]}
-      />
-
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="w-full sm:max-w-sm">
-          <SearchBar value={search} onChange={handleSearchChange} />
-        </div>
-        <span className="text-xs font-medium text-foreground-muted">
-          {uiStrings.workflowsCount[locale](filtered.length)}
-        </span>
-      </div>
-
-      {selectedWorkflow && (
-        <div className="mb-6">
-          <WorkflowDetail
-            workflow={selectedWorkflow}
-            onClose={() => setSelectedId(null)}
-          />
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((workflow) => (
-          <WorkflowCard
-            key={workflow.id}
-            workflow={workflow}
-            isSelected={selectedId === workflow.id}
-            onClick={() =>
-              setSelectedId(selectedId === workflow.id ? null : workflow.id)
-            }
-          />
-        ))}
-      </div>
-
-      {filtered.length === 0 && (
-        <div className="rounded-[var(--radius-lg)] border border-dashed border-border bg-surface py-20 text-center text-sm text-foreground-muted">
-          {uiStrings.noResults[locale]}
-        </div>
-      )}
-    </PageShell>
+    <CatalogTemplate
+      eyebrow={activeLabel ?? undefined}
+      title={uiStrings.appTitle[locale]}
+      description={uiStrings.appSubtitle[locale]}
+      search={<SearchBar value={search} onChange={handleSearchChange} />}
+      count={uiStrings.workflowsCount[locale](filtered.length)}
+      detailSlot={
+        selectedWorkflow && (
+          <div className="mb-6">
+            <WorkflowDetail
+              workflow={selectedWorkflow}
+              onClose={() => setSelectedId(null)}
+            />
+          </div>
+        )
+      }
+      isEmpty={filtered.length === 0}
+      emptyMessage={uiStrings.noResults[locale]}
+    >
+      {filtered.map((workflow) => (
+        <WorkflowCard
+          key={workflow.id}
+          workflow={workflow}
+          isSelected={selectedId === workflow.id}
+          onClick={() =>
+            setSelectedId(selectedId === workflow.id ? null : workflow.id)
+          }
+        />
+      ))}
+    </CatalogTemplate>
   );
 }
