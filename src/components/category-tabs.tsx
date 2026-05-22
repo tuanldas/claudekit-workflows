@@ -2,8 +2,8 @@
 
 import type { WorkflowCategory } from "@/types/workflow";
 import { categoryOrder } from "@/data/workflows";
-import { uiStrings } from "@/i18n/translations";
 import { useLocale } from "@/i18n/language-context";
+import { categoryLabel } from "@/lib/category-utils";
 
 interface CategoryTabsProps {
   active: WorkflowCategory;
@@ -26,7 +26,7 @@ export function CategoryTabs({ active, onChange }: CategoryTabsProps) {
               : "bg-gray-100 text-gray-600 hover:bg-gray-200"
           }`}
         >
-          {uiStrings.categories[cat][locale]}
+          {categoryLabel(cat, locale)}
         </button>
       ))}
     </div>
