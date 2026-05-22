@@ -16,6 +16,10 @@
 # search index (generated at build-time, not committed)
 /public/search-index-*.json
 
+# skills index (generated at build-time, not committed — production fallback empty array)
+/src/data/skills-index.json
+/src/data/skills-content/
+
 # next.js
 /.next/
 /out/

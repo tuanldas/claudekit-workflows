@@ -1,4 +1,5 @@
 import { promises as fs } from "node:fs";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import { glob } from "glob";
 import matter from "gray-matter";
@@ -11,6 +12,18 @@ interface IndexableDoc {
   slug: string;
   title: string;
   searchable: string;
+  kind?: "doc" | "skill";
+  group?: string;
+}
+
+interface SkillRecord {
+  id: string;
+  name: string;
+  description: string;
+  tags: string[];
+  group: string;
+  path: string;
+  excerpt: string;
 }
 
 async function buildIndex(locale: Locale) {
@@ -53,8 +66,46 @@ async function buildIndex(locale: Locale) {
     docs.push({ id: i, slug, title: h1, searchable });
   }
 
+  const skills = await loadSkillsForSearch();
+  let nextId = docs.length;
+  for (const sk of skills) {
+    const tagText = sk.tags.join(" ");
+    const searchable = `${sk.name} ${sk.name} ${sk.description} ${tagText} ${sk.excerpt}`;
+    docs.push({
+      id: nextId++,
+      slug: `skills/${sk.id}`,
+      title: sk.name,
+      searchable,
+      kind: "skill",
+      group: sk.group,
+    });
+  }
+
   await writeOutput(locale, docs);
-  console.log(`[search-index] ${locale}: ${docs.length} docs indexed`);
+  console.log(
+    `[search-index] ${locale}: ${docs.length} entries indexed (${skills.length} skills)`,
+  );
+}
+
+async function loadSkillsForSearch(): Promise<SkillRecord[]> {
+  const skillsIndexPath = path.join(
+    process.cwd(),
+    "src/data/skills-index.json",
+  );
+  if (!existsSync(skillsIndexPath)) {
+    console.warn(
+      "[search-index] skills-index.json missing — run build:skills first",
+    );
+    return [];
+  }
+  try {
+    const raw = await fs.readFile(skillsIndexPath, "utf-8");
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as SkillRecord[]) : [];
+  } catch (err) {
+    console.warn("[search-index] failed to read skills-index.json:", err);
+    return [];
+  }
 }
 
 async function writeOutput(locale: string, docs: IndexableDoc[]) {
