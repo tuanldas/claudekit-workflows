@@ -6,20 +6,28 @@ import {
 } from "./locale-routing";
 
 describe("getRedirectTarget", () => {
-  it("redirects / to /vi/", () => {
-    expect(getRedirectTarget("/")).toBe("/vi/");
+  it("redirects / to /vi", () => {
+    expect(getRedirectTarget("/")).toBe("/vi");
   });
 
   it("redirects /workflows to /vi/workflows", () => {
     expect(getRedirectTarget("/workflows")).toBe("/vi/workflows");
   });
 
-  it("passes /vi/... through unchanged", () => {
-    expect(getRedirectTarget("/vi/docs")).toBeNull();
-    expect(getRedirectTarget("/vi")).toBeNull();
+  it("redirects bare locale /vi to /vi/workflows", () => {
+    expect(getRedirectTarget("/vi")).toBe("/vi/workflows");
   });
 
-  it("passes /en/... through unchanged", () => {
+  it("redirects bare locale /en to /en/workflows", () => {
+    expect(getRedirectTarget("/en")).toBe("/en/workflows");
+  });
+
+  it("passes /vi/... (with sub-path) through unchanged", () => {
+    expect(getRedirectTarget("/vi/docs")).toBeNull();
+    expect(getRedirectTarget("/vi/workflows")).toBeNull();
+  });
+
+  it("passes /en/... (with sub-path) through unchanged", () => {
     expect(getRedirectTarget("/en/docs/something")).toBeNull();
   });
 
