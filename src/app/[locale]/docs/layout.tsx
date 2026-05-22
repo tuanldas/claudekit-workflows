@@ -1,45 +1,14 @@
-import { unstable_cache } from "next/cache";
-import { buildDocsTree } from "@/lib/docs-tree";
-import { DocsSidebar } from "@/components/docs/docs-sidebar";
-import { DocsToc } from "@/components/docs/docs-toc";
-import { MobileNav } from "@/components/docs/mobile-nav";
-import { DocsSearch } from "@/components/docs/docs-search";
-import type { Locale } from "@/types/workflow";
-
-const getCachedDocsTree = unstable_cache(
-  async (locale: Locale) => buildDocsTree(locale),
-  ["docs-tree"],
-  { tags: ["docs-tree"], revalidate: false },
-);
+import { FloatingToc } from "@/components/shell/floating-toc";
 
 interface Props {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
 }
 
-export default async function DocsLayout({ children, params }: Props) {
-  const { locale: localeParam } = await params;
-  const locale = localeParam as Locale;
-  const tree = await getCachedDocsTree(locale);
-  const sidebar = <DocsSidebar tree={tree} locale={locale} />;
-
+export default function DocsLayout({ children }: Props) {
   return (
-    <>
-      <MobileNav sidebar={sidebar} />
-      <div className="mx-auto grid max-w-7xl grid-cols-12 gap-6 px-4 sm:px-6 lg:px-8">
-        <aside className="sticky top-4 col-span-3 hidden h-[calc(100vh-2rem)] self-start overflow-y-auto py-8 lg:block">
-          <div className="mb-4">
-            <DocsSearch locale={locale} />
-          </div>
-          {sidebar}
-        </aside>
-        <main className="col-span-12 py-6 lg:col-span-7 lg:py-8">
-          {children}
-        </main>
-        <aside className="sticky top-4 col-span-2 hidden h-[calc(100vh-2rem)] self-start overflow-y-auto py-8 lg:block">
-          <DocsToc />
-        </aside>
-      </div>
-    </>
+    <div className="relative mx-auto max-w-3xl px-6 py-8 2xl:mx-0 2xl:max-w-none 2xl:pr-72">
+      {children}
+      <FloatingToc />
+    </div>
   );
 }
