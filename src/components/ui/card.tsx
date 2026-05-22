@@ -25,7 +25,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
         selected
           ? "border-accent bg-accent-subtle"
           : "border-border",
-        interactive && !selected && "hover:bg-surface hover:border-border-strong",
+        interactive && !selected && "hover:bg-surface-hover hover:border-border-strong",
         className,
       )}
       {...rest}
