@@ -87,6 +87,28 @@ export const uiStrings = {
     searchHint: { vi: "Cmd+K", en: "Cmd+K" },
     themeToggle: { vi: "Đổi giao diện", en: "Toggle theme" },
   },
+  palette: {
+    placeholder: {
+      vi: "Tìm workflow, docs, skill…",
+      en: "Search workflows, docs, skills…",
+    },
+    recent: { vi: "Tìm gần đây", en: "Recent searches" },
+    clearRecent: { vi: "Xoá", en: "Clear" },
+    empty: { vi: "Không có kết quả phù hợp.", en: "No matching results." },
+    emptyIndex: {
+      vi: "Search index chưa sẵn sàng. Chạy `npm run build:search` một lần.",
+      en: "Search index unavailable. Run `npm run build:search` once.",
+    },
+    loading: { vi: "Đang tải…", en: "Loading…" },
+    workflowsGroup: { vi: "Workflows", en: "Workflows" },
+    docsGroup: { vi: "Tài liệu", en: "Docs" },
+    skillsGroup: { vi: "Skills", en: "Skills" },
+    label: { vi: "Command palette", en: "Command palette" },
+    closeAction: { vi: "Đóng", en: "Close" },
+    footerNav: { vi: "↑↓ điều hướng", en: "↑↓ navigate" },
+    footerSelect: { vi: "↵ chọn", en: "↵ select" },
+    footerClose: { vi: "esc đóng", en: "esc close" },
+  },
   theme: {
     light: { vi: "Sáng", en: "Light" },
     dark: { vi: "Tối", en: "Dark" },

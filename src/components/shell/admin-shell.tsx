@@ -4,6 +4,8 @@ import type { ReactNode } from "react";
 import { useLocale } from "@/i18n/language-context";
 import type { DocsTree } from "@/types/docs";
 import type { Skill } from "@/types/skill";
+import { CommandPalette } from "./command-palette";
+import { CommandPaletteProvider } from "./command-palette-context";
 import { MobileDrawer } from "./mobile-drawer";
 import {
   MobileDrawerProvider,
@@ -27,11 +29,13 @@ export function AdminShell({
   skills = null,
 }: Props) {
   return (
-    <MobileDrawerProvider>
-      <AdminShellInner docsTree={docsTree} skills={skills}>
-        {children}
-      </AdminShellInner>
-    </MobileDrawerProvider>
+    <CommandPaletteProvider>
+      <MobileDrawerProvider>
+        <AdminShellInner docsTree={docsTree} skills={skills}>
+          {children}
+        </AdminShellInner>
+      </MobileDrawerProvider>
+    </CommandPaletteProvider>
   );
 }
 
@@ -70,6 +74,7 @@ function AdminShellInner({
           variant="drawer"
         />
       </MobileDrawer>
+      <CommandPalette />
     </div>
   );
 }
