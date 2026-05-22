@@ -2,7 +2,6 @@ import { unstable_cache } from "next/cache";
 import { buildDocsTree } from "@/lib/docs-tree";
 import { DocsSidebar } from "@/components/docs/docs-sidebar";
 import { DocsToc } from "@/components/docs/docs-toc";
-import { MobileNav } from "@/components/docs/mobile-nav";
 import { DocsSearch } from "@/components/docs/docs-search";
 import type { Locale } from "@/types/workflow";
 
@@ -24,22 +23,19 @@ export default async function DocsLayout({ children, params }: Props) {
   const sidebar = <DocsSidebar tree={tree} locale={locale} />;
 
   return (
-    <>
-      <MobileNav sidebar={sidebar} />
-      <div className="mx-auto grid max-w-7xl grid-cols-12 gap-6 px-4 sm:px-6 lg:px-8">
-        <aside className="sticky top-4 col-span-3 hidden h-[calc(100vh-2rem)] self-start overflow-y-auto py-8 lg:block">
-          <div className="mb-4">
-            <DocsSearch locale={locale} />
-          </div>
-          {sidebar}
-        </aside>
-        <main className="col-span-12 py-6 lg:col-span-7 lg:py-8">
-          {children}
-        </main>
-        <aside className="sticky top-4 col-span-2 hidden h-[calc(100vh-2rem)] self-start overflow-y-auto py-8 lg:block">
-          <DocsToc />
-        </aside>
-      </div>
-    </>
+    <div className="mx-auto grid max-w-7xl grid-cols-12 gap-6 px-4 sm:px-6 lg:px-8">
+      <aside className="sticky top-4 col-span-3 hidden h-[calc(100vh-2rem)] self-start overflow-y-auto py-8 lg:block">
+        <div className="mb-4">
+          <DocsSearch locale={locale} />
+        </div>
+        {sidebar}
+      </aside>
+      <main className="col-span-12 py-6 lg:col-span-7 lg:py-8">
+        {children}
+      </main>
+      <aside className="sticky top-4 col-span-2 hidden h-[calc(100vh-2rem)] self-start overflow-y-auto py-8 lg:block">
+        <DocsToc />
+      </aside>
+    </div>
   );
 }
