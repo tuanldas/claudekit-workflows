@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { useLocale } from "@/i18n/language-context";
 import type { DocsTree } from "@/types/docs";
+import type { Skill } from "@/types/skill";
 import { MobileDrawer } from "./mobile-drawer";
 import {
   MobileDrawerProvider,
@@ -16,12 +17,20 @@ interface Props {
   /** Pre-fetched docs tree at server level — passed to sidebar so docs nav
    *  doesn't re-fetch on every client navigation. Null on non-docs routes. */
   docsTree?: DocsTree | null;
+  /** Pre-fetched skills index at server level. Null on non-skills routes. */
+  skills?: Skill[] | null;
 }
 
-export function AdminShell({ children, docsTree = null }: Props) {
+export function AdminShell({
+  children,
+  docsTree = null,
+  skills = null,
+}: Props) {
   return (
     <MobileDrawerProvider>
-      <AdminShellInner docsTree={docsTree}>{children}</AdminShellInner>
+      <AdminShellInner docsTree={docsTree} skills={skills}>
+        {children}
+      </AdminShellInner>
     </MobileDrawerProvider>
   );
 }
@@ -29,16 +38,18 @@ export function AdminShell({ children, docsTree = null }: Props) {
 function AdminShellInner({
   children,
   docsTree,
+  skills,
 }: {
   children: ReactNode;
   docsTree: DocsTree | null;
+  skills: Skill[] | null;
 }) {
   const { locale } = useLocale();
   const { open, openDrawer, closeDrawer } = useMobileDrawer();
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Sidebar locale={locale} docsTree={docsTree} />
+      <Sidebar locale={locale} docsTree={docsTree} skills={skills} />
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar
           locale={locale}
@@ -52,7 +63,12 @@ function AdminShellInner({
         onClose={closeDrawer}
         label={locale === "vi" ? "Điều hướng" : "Navigation"}
       >
-        <Sidebar locale={locale} docsTree={docsTree} variant="drawer" />
+        <Sidebar
+          locale={locale}
+          docsTree={docsTree}
+          skills={skills}
+          variant="drawer"
+        />
       </MobileDrawer>
     </div>
   );

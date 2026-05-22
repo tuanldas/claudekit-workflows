@@ -3,6 +3,7 @@ import { LanguageProvider } from "@/i18n/language-context";
 import { ThemeProvider } from "@/lib/theme-context";
 import { AdminShell } from "@/components/shell/admin-shell";
 import { getCachedDocsTree } from "@/lib/cached-docs-tree";
+import { loadSkills } from "@/lib/skills-loader";
 import { LOCALES } from "@/lib/locale-routing";
 import type { Locale } from "@/types/workflow";
 
@@ -20,12 +21,19 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!LOCALES.includes(locale as Locale)) notFound();
 
-  const docsTree = await getCachedDocsTree(locale as Locale);
+  // Pre-load both server datasets in parallel. The sidebar will only render
+  // the slice relevant to the active pathname (workflows / docs / skills).
+  const [docsTree, skills] = await Promise.all([
+    getCachedDocsTree(locale as Locale),
+    loadSkills(),
+  ]);
 
   return (
     <LanguageProvider locale={locale as Locale}>
       <ThemeProvider>
-        <AdminShell docsTree={docsTree}>{children}</AdminShell>
+        <AdminShell docsTree={docsTree} skills={skills}>
+          {children}
+        </AdminShell>
       </ThemeProvider>
     </LanguageProvider>
   );

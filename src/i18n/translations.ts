@@ -63,6 +63,24 @@ export const uiStrings = {
     skills: { vi: "Skills", en: "Skills" },
     docsStub: { vi: "Docs nav (Phase 3)", en: "Docs nav (Phase 3)" },
     skillsStub: { vi: "Skills nav (Phase 6)", en: "Skills nav (Phase 6)" },
+    skillsFilter: { vi: "Lọc skill…", en: "Filter skills…" },
+  },
+  skills: {
+    title: { vi: "Skills", en: "Skills" },
+    searchPlaceholder: {
+      vi: "Tìm skill theo tên, mô tả, tag…",
+      en: "Search skills by name, description, tag…",
+    },
+    groupFilter: { vi: "Nhóm", en: "Group" },
+    groupAll: { vi: "Tất cả nhóm", en: "All groups" },
+    empty: {
+      vi: "Không có skill nào phù hợp.",
+      en: "No skills match your filters.",
+    },
+    emptyCi: {
+      vi: "Skills sync chưa cấu hình. Chạy `npm run build:skills` để index ~/.claude/skills.",
+      en: "Skills sync not configured. Run `npm run build:skills` to index ~/.claude/skills.",
+    },
   },
   topbar: {
     searchPlaceholder: { vi: "Tìm kiếm…", en: "Search…" },

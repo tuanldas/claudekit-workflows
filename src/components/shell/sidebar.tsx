@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/types/workflow";
 import type { DocsTree } from "@/types/docs";
+import type { Skill } from "@/types/skill";
 import { SidebarHeader } from "./sidebar-header";
 import { SidebarWorkflowsNav } from "./sidebar-workflows-nav";
 import { SidebarDocsTree } from "./sidebar-docs-tree";
@@ -13,12 +14,15 @@ interface Props {
   locale: Locale;
   /** Pre-fetched docs tree (server-built). Null on non-docs routes. */
   docsTree?: DocsTree | null;
+  /** Pre-fetched skills index (server-built). Null on non-skills routes. */
+  skills?: Skill[] | null;
   variant?: "desktop" | "drawer";
 }
 
 export function Sidebar({
   locale,
   docsTree = null,
+  skills = null,
   variant = "desktop",
 }: Props) {
   const pathname = usePathname() ?? "";
@@ -41,7 +45,7 @@ export function Sidebar({
           </Suspense>
         )}
         {onDocs && <SidebarDocsTree locale={locale} tree={docsTree} />}
-        {onSkills && <SidebarSkillsNav locale={locale} />}
+        {onSkills && <SidebarSkillsNav locale={locale} skills={skills} />}
       </div>
     </nav>
   );
