@@ -7,6 +7,8 @@ import type { Skill } from "@/types/skill";
 import type { Locale } from "@/types/workflow";
 import { uiStrings } from "@/i18n/translations";
 import { pluginGroupKey } from "@/lib/skill-plugin";
+import { useSidebarScroll } from "@/lib/use-sidebar-scroll";
+import { SECTION_KEYS } from "@/lib/sidebar-scroll-storage";
 
 interface ClientProps {
   skills: Skill[];
@@ -17,6 +19,7 @@ export function SidebarSkillsNavClient({ skills, locale }: ClientProps) {
   const pathname = usePathname() ?? "";
   const [query, setQuery] = useState("");
   const deferred = useDeferredValue(query);
+  const scrollRef = useSidebarScroll<HTMLDivElement>(SECTION_KEYS.SKILLS);
 
   const grouped = useMemo(() => {
     const q = deferred.trim().toLowerCase();
@@ -45,14 +48,18 @@ export function SidebarSkillsNavClient({ skills, locale }: ClientProps) {
 
   if (skills.length === 0) {
     return (
-      <div className="px-4 text-sm text-gray-500" aria-label="Skills nav empty">
+      <div
+        ref={scrollRef}
+        className="h-full overflow-y-auto px-4 text-sm text-gray-500"
+        aria-label="Skills nav empty"
+      >
         {uiStrings.skills.emptyCi[locale]}
       </div>
     );
   }
 
   return (
-    <div className="px-2">
+    <div ref={scrollRef} className="h-full overflow-y-auto px-2">
       <div className="mb-3 px-1">
         <input
           type="search"
