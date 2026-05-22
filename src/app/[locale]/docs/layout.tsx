@@ -8,7 +8,7 @@ interface Props {
 export default function DocsLayout({ children }: Props) {
   return (
     <PageShell withToc>
-      <div className="max-w-3xl">{children}</div>
+      {children}
       <FloatingToc />
     </PageShell>
   );

@@ -14,15 +14,13 @@ interface Props {
 export function SkillDetailPage({ skill, content }: Props) {
   return (
     <PageShell withToc>
-      <div className="max-w-3xl">
-        <SkillHeader skill={skill} />
-        <article
-          data-docs-content
-          className="prose prose-slate max-w-none dark:prose-invert"
-        >
-          {content}
-        </article>
-      </div>
+      <SkillHeader skill={skill} />
+      <article
+        data-docs-content
+        className="prose prose-slate max-w-none dark:prose-invert"
+      >
+        {content}
+      </article>
       <FloatingToc />
     </PageShell>
   );

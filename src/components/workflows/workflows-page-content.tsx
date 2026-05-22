@@ -79,12 +79,16 @@ export function WorkflowsPageContent() {
         eyebrow={activeLabel ?? undefined}
         title={uiStrings.appTitle[locale]}
         description={uiStrings.appSubtitle[locale]}
-        actions={
-          <div className="w-full sm:w-72">
-            <SearchBar value={search} onChange={handleSearchChange} />
-          </div>
-        }
       />
+
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="w-full sm:max-w-sm">
+          <SearchBar value={search} onChange={handleSearchChange} />
+        </div>
+        <span className="text-sm text-gray-500 dark:text-gray-400">
+          {uiStrings.workflowsCount[locale](filtered.length)}
+        </span>
+      </div>
 
       {selectedWorkflow && (
         <div className="mb-6">
@@ -94,10 +98,6 @@ export function WorkflowsPageContent() {
           />
         </div>
       )}
-
-      <div className="mb-4 text-sm text-gray-500 dark:text-gray-400">
-        {uiStrings.workflowsCount[locale](filtered.length)}
-      </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {filtered.map((workflow) => (

@@ -65,33 +65,32 @@ export function SkillsCatalogContent({ skills, locale }: Props) {
       <PageHeader
         title={uiStrings.skills.title[locale]}
         description={catalogDescription}
-        actions={
-          <>
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder={uiStrings.skills.searchPlaceholder[locale]}
-              className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none sm:w-64 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100"
-            />
-            <select
-              aria-label={uiStrings.skills.groupFilter[locale]}
-              value={group}
-              onChange={(e) => setGroup(e.target.value)}
-              className="rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100"
-            >
-              <option value={GROUP_ALL}>
-                {uiStrings.skills.groupAll[locale]} ({skills.length})
-              </option>
-              {groupOptions.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.value} ({opt.count})
-                </option>
-              ))}
-            </select>
-          </>
-        }
       />
+
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder={uiStrings.skills.searchPlaceholder[locale]}
+          className="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none sm:max-w-sm dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100"
+        />
+        <select
+          aria-label={uiStrings.skills.groupFilter[locale]}
+          value={group}
+          onChange={(e) => setGroup(e.target.value)}
+          className="rounded-md border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-orange-400 focus:ring-2 focus:ring-orange-200 focus:outline-none dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100"
+        >
+          <option value={GROUP_ALL}>
+            {uiStrings.skills.groupAll[locale]} ({skills.length})
+          </option>
+          {groupOptions.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.value} ({opt.count})
+            </option>
+          ))}
+        </select>
+      </div>
 
       {filtered.length === 0 ? (
         <EmptyState message={uiStrings.skills.empty[locale]} />

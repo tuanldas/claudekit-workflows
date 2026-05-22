@@ -14,17 +14,18 @@ const fixtureSkill: Skill = {
 };
 
 describe("SkillDetailPage", () => {
-  it("renders skill name as heading", () => {
+  it("delegates H1 to MDX content (avoids duplicate skill-name heading)", () => {
     render(
       <SkillDetailPage
         skill={fixtureSkill}
-        content={<div>Body</div>}
+        content={<h1>ck:plan</h1>}
         locale="vi"
       />,
     );
+    // Only the MDX content provides the H1 — SkillHeader is metadata-only.
     expect(
-      screen.getByRole("heading", { level: 1, name: /ck:plan/ }),
-    ).toBeInTheDocument();
+      screen.getAllByRole("heading", { level: 1, name: /ck:plan/ }),
+    ).toHaveLength(1);
   });
 
   it("renders provided content node", () => {
