@@ -49,13 +49,14 @@ export async function compileMdx(
       [
         rehypeShiki,
         {
-          // Single theme — dark mode out of scope per plan.
-          theme: "github-light",
+          // Dual theme — emits CSS vars (--shiki-light, --shiki-dark, *-bg)
+          // swapped by `.dark` ancestor in globals.css. `defaultColor: false`
+          // suppresses inline `color:` so vars alone drive paint.
+          themes: { light: "github-light", dark: "github-dark" },
+          defaultColor: false,
           langs: SHIKI_LANGS,
-          // Docs có nhiều ``` blocks KHÔNG language tag → shiki by default skip
-          // tokenize → pre lose inline bg/fg → Tailwind prose dark default apply.
-          // defaultLanguage 'text' makes shiki tokenize ALL blocks with light
-          // theme bg/fg + plaintext token (still readable, không syntax color).
+          // Tokenize blocks without lang tag (plaintext) so they still
+          // receive bg/fg vars instead of falling back to prose defaults.
           defaultLanguage: "text",
         },
       ],
