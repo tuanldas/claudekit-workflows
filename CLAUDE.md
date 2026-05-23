@@ -50,6 +50,17 @@ src/
 
 ---
 
+## Design System — Adding pages
+
+Mọi trang catalog/detail/docs DÙNG layout templates ở `src/components/shell/`. KHÔNG tự lắp `<PageShell><PageHeader>…</PageShell>` manual. Xem `docs/docs/design-system.md` cho token scale + recipe.
+
+- **Templates**: `CatalogTemplate`, `DetailInlineTemplate`, `DetailPageTemplate`, `DocsTemplate`.
+- **Primitives**: `Card` (polymorphic `as`), `PageToolbar`, `CatalogGrid`, `EmptyState`, `SectionLabel`, `DetailHeader`, `FilterSelect`.
+- Filter state cho catalog page = **URL query** (`?q=`, `?category=`, …) — không dùng `useState` cục bộ.
+- Typography qua token (`text-h1`, `text-h3`, `text-caption`, …) — không ad-hoc `text-[Npx]`.
+
+---
+
 ## Quyết định quan trọng
 
 ### 1. i18n — Path-based routing
