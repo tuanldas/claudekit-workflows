@@ -4,6 +4,7 @@ import { loadMdx } from "@/lib/mdx-loader";
 import { compileMdx } from "@/lib/mdx-compile";
 import { docsMDXComponents } from "@/components/docs/mdx-components";
 import { TranslationBanner } from "@/components/docs/translation-banner";
+import { DocsTemplate } from "@/components/shell/docs-template";
 import type { Locale } from "@/types/workflow";
 
 const LANDING_SLUG = "claudekit-overview";
@@ -27,20 +28,18 @@ export default async function DocsLandingPage({
   const MDXContent = await compileMdx(result.source);
 
   return (
-    <>
-      {result.fallback && (
-        <TranslationBanner
-          originalLocale={result.originalLocale}
-          resolvedLocale={result.resolvedLocale}
-        />
-      )}
-      <article
-        data-docs-content
-        data-fallback={result.fallback ? "true" : "false"}
-        className="prose prose-slate max-w-none"
-      >
-        <MDXContent components={docsMDXComponents} />
-      </article>
-    </>
+    <DocsTemplate
+      banner={
+        result.fallback && (
+          <TranslationBanner
+            originalLocale={result.originalLocale}
+            resolvedLocale={result.resolvedLocale}
+          />
+        )
+      }
+      articleProps={{ "data-fallback": result.fallback ? "true" : "false" }}
+    >
+      <MDXContent components={docsMDXComponents} />
+    </DocsTemplate>
   );
 }

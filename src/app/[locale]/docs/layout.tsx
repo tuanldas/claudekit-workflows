@@ -1,15 +1,9 @@
-import { FloatingToc } from "@/components/shell/floating-toc";
-import { PageShell } from "@/components/shell/page-shell";
-
 interface Props {
   children: React.ReactNode;
 }
 
+// Shell (PageShell + FloatingToc) is owned by DocsTemplate, applied per page so
+// page-level data (e.g. TranslationBanner fallback) can flow into template slots.
 export default function DocsLayout({ children }: Props) {
-  return (
-    <PageShell withToc>
-      {children}
-      <FloatingToc />
-    </PageShell>
-  );
+  return <>{children}</>;
 }
