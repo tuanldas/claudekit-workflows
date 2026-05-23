@@ -1,7 +1,7 @@
 ---
 title: "Unified Layout System Redesign"
 description: "Standardize visual + structural layout across Workflows, Skills, Docs pages with reusable templates"
-status: pending
+status: completed
 priority: P1
 effort: 14h
 branch: main
@@ -47,13 +47,13 @@ Một bộ **layout templates** reusable (`CatalogTemplate`, `DetailTemplate`, `
 
 | # | Phase | Status | Duration | Owns Files |
 |---|-------|--------|----------|------------|
-| 1 | [Design tokens audit + scale formalization](./phase-01-design-tokens-audit-and-refresh.md) | pending | 1.5h | `globals.css`, `docs/docs/design-system.md` (scaffold) |
-| 2 | [Layout primitives + templates](./phase-02-layout-primitives-and-templates.md) | pending | 3h | `components/shell/page-toolbar.tsx`, `catalog-grid.tsx`, `empty-state.tsx`, `section-label.tsx`, `detail-header.tsx`, `catalog-template.tsx`, `detail-template.tsx`, `docs-template.tsx`, `components/ui/filter-select.tsx` |
-| 3 | [Refactor Workflows page](./phase-03-refactor-workflows.md) | pending | 2h | `components/workflows/workflows-page-content.tsx`, `components/workflow-card.tsx`, `components/workflow-detail.tsx` |
-| 4 | [Refactor Skills page](./phase-04-refactor-skills.md) | pending | 2h | `components/skills/skills-catalog-content.tsx`, `skill-card.tsx`, `skill-detail-page.tsx`, `skill-header.tsx` |
-| 5 | [Refactor Docs page](./phase-05-refactor-docs.md) | pending | 1h | `app/[locale]/docs/layout.tsx`, `app/[locale]/docs/[...slug]/page.tsx`, `app/[locale]/docs/page.tsx` |
-| 6 | [Design system doc](./phase-06-design-system-doc.md) | pending | 1h | `docs/docs/design-system.md`, `CLAUDE.md` patch |
-| 7 | [Visual QA + a11y verification](./phase-07-visual-qa-and-a11y.md) | pending | 2.5h | tests/e2e, no source changes |
+| 1 | [Design tokens audit + scale formalization](./phase-01-design-tokens-audit-and-refresh.md) | done | 1.5h | `globals.css`, `docs/docs/design-system.md` (scaffold) |
+| 2 | [Layout primitives + templates](./phase-02-layout-primitives-and-templates.md) | done | 3h | `components/shell/page-toolbar.tsx`, `catalog-grid.tsx`, `empty-state.tsx`, `section-label.tsx`, `detail-header.tsx`, `catalog-template.tsx`, `detail-template.tsx`, `docs-template.tsx`, `components/ui/filter-select.tsx` |
+| 3 | [Refactor Workflows page](./phase-03-refactor-workflows.md) | done | 2h | `components/workflows/workflows-page-content.tsx`, `components/workflow-card.tsx`, `components/workflow-detail.tsx` |
+| 4 | [Refactor Skills page](./phase-04-refactor-skills.md) | done | 2h | `components/skills/skills-catalog-content.tsx`, `skill-card.tsx`, `skill-detail-page.tsx`, `skill-header.tsx` |
+| 5 | [Refactor Docs page](./phase-05-refactor-docs.md) | done | 1h | `app/[locale]/docs/layout.tsx`, `app/[locale]/docs/[...slug]/page.tsx`, `app/[locale]/docs/page.tsx` |
+| 6 | [Design system doc](./phase-06-design-system-doc.md) | done | 1h | `docs/docs/design-system.md`, `CLAUDE.md` patch |
+| 7 | [Visual QA + a11y verification](./phase-07-visual-qa-and-a11y.md) | done | 2.5h | tests/e2e, no source changes |
 
 **Total estimate:** 13–14 hours. Phases 3/4/5 có thể song song (different files) sau khi phase 2 done.
 
