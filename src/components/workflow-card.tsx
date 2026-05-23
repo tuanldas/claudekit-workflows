@@ -2,6 +2,7 @@
 
 import type { Workflow } from "@/types/workflow";
 import { useLocale } from "@/i18n/language-context";
+import { Card } from "@/components/ui";
 import { LevelBadge } from "./level-badge";
 import { FlowSteps } from "./flow-steps";
 import { cn } from "@/lib/cn";
@@ -20,16 +21,14 @@ export function WorkflowCard({
   const { locale } = useLocale();
 
   return (
-    <button
+    <Card
+      as="button"
+      type="button"
       onClick={onClick}
       aria-pressed={isSelected}
-      className={cn(
-        "group w-full cursor-pointer touch-manipulation rounded-[var(--radius-lg)] border p-4 text-left transition-colors",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        isSelected
-          ? "border-accent bg-accent-subtle"
-          : "border-border bg-background hover:border-border-strong hover:bg-surface-hover",
-      )}
+      interactive
+      selected={isSelected}
+      className="group w-full cursor-pointer touch-manipulation p-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <div className="mb-3 flex items-center justify-between gap-2">
         <LevelBadge level={workflow.level} />
@@ -55,6 +54,6 @@ export function WorkflowCard({
       </p>
 
       <FlowSteps steps={workflow.steps} />
-    </button>
+    </Card>
   );
 }

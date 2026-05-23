@@ -1,39 +1,62 @@
 import {
   forwardRef,
+  type ComponentPropsWithoutRef,
+  type ElementType,
+  type ForwardedRef,
   type HTMLAttributes,
+  type ReactElement,
   type ReactNode,
+  type Ref,
 } from "react";
 import { cn } from "@/lib/cn";
 
-interface CardProps extends HTMLAttributes<HTMLDivElement> {
+type CardElement = "div" | "button" | "a";
+
+type CardOwnProps = {
   /** Add hover state — useful for clickable cards. */
   interactive?: boolean;
   /** Apply accent-themed border + subtle bg (e.g. selected state). */
   selected?: boolean;
   children?: ReactNode;
-}
+  className?: string;
+};
 
-export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
-  { interactive, selected, className, children, ...rest },
-  ref,
+export type CardProps<T extends CardElement = "div"> = CardOwnProps & {
+  as?: T;
+} & Omit<ComponentPropsWithoutRef<T>, keyof CardOwnProps | "as">;
+
+type CardRef<T extends CardElement> = T extends "button"
+  ? HTMLButtonElement
+  : T extends "a"
+    ? HTMLAnchorElement
+    : HTMLDivElement;
+
+function CardInner<T extends CardElement = "div">(
+  { as, interactive, selected, className, children, ...rest }: CardProps<T>,
+  ref: ForwardedRef<CardRef<T>>,
 ) {
+  const Component = (as ?? "div") as ElementType;
   return (
-    <div
-      ref={ref}
+    <Component
+      ref={ref as Ref<HTMLElement>}
       className={cn(
         "rounded-[var(--radius-lg)] border bg-background transition-colors",
-        selected
-          ? "border-accent bg-accent-subtle"
-          : "border-border",
-        interactive && !selected && "hover:bg-surface-hover hover:border-border-strong",
+        selected ? "border-accent bg-accent-subtle" : "border-border",
+        interactive &&
+          !selected &&
+          "hover:bg-surface-hover hover:border-border-strong",
         className,
       )}
       {...rest}
     >
       {children}
-    </div>
+    </Component>
   );
-});
+}
+
+export const Card = forwardRef(CardInner) as <T extends CardElement = "div">(
+  props: CardProps<T> & { ref?: ForwardedRef<CardRef<T>> },
+) => ReactElement | null;
 
 export function CardHeader({
   className,

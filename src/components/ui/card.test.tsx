@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { Card, CardHeader, CardBody, CardFooter } from "./card";
 
 describe("Card", () => {
@@ -26,7 +27,9 @@ describe("Card", () => {
         Hover me
       </Card>,
     );
-    expect(screen.getByTestId("card").className).toContain("hover:bg-surface");
+    expect(screen.getByTestId("card").className).toContain(
+      "hover:bg-surface-hover",
+    );
   });
 
   it("composes header / body / footer", () => {
@@ -40,5 +43,40 @@ describe("Card", () => {
     expect(screen.getByText("Header")).toBeInTheDocument();
     expect(screen.getByText("Body")).toBeInTheDocument();
     expect(screen.getByText("Footer")).toBeInTheDocument();
+  });
+
+  it("renders as a div by default", () => {
+    render(<Card data-testid="card">Default</Card>);
+    expect(screen.getByTestId("card").tagName).toBe("DIV");
+  });
+
+  it("renders as a button when as='button'", async () => {
+    const onClick = vi.fn();
+    render(
+      <Card
+        as="button"
+        data-testid="card"
+        onClick={onClick}
+        aria-pressed="false"
+      >
+        Click
+      </Card>,
+    );
+    const card = screen.getByTestId("card");
+    expect(card.tagName).toBe("BUTTON");
+    expect(card).toHaveAttribute("aria-pressed", "false");
+    await userEvent.click(card);
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("renders as an anchor when as='a' and passes href", () => {
+    render(
+      <Card as="a" href="/skills/ck-plan" data-testid="card">
+        Anchor
+      </Card>,
+    );
+    const card = screen.getByTestId("card");
+    expect(card.tagName).toBe("A");
+    expect(card).toHaveAttribute("href", "/skills/ck-plan");
   });
 });
