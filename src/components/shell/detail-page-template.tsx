@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { PageShell } from "./page-shell";
-import { FloatingToc } from "./floating-toc";
 
 interface Props {
   /** Top metadata strip — typically a DetailHeader or SkillHeader composition. */
@@ -32,7 +31,6 @@ export function DetailPageTemplate({
       <article data-docs-content className={PROSE_CLASS}>
         {children}
       </article>
-      {withToc && <FloatingToc />}
     </PageShell>
   );
 }

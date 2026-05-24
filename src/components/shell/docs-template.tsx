@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { PageShell } from "./page-shell";
-import { FloatingToc } from "./floating-toc";
 
 interface Props {
   /** Optional banner above the article (translation fallback, deprecation notice). */
@@ -31,7 +30,6 @@ export function DocsTemplate({
       <article data-docs-content className={PROSE_CLASS} {...articleProps}>
         {children}
       </article>
-      {withToc && <FloatingToc />}
     </PageShell>
   );
 }
