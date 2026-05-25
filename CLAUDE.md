@@ -16,7 +16,6 @@ Trang web tương tác hiển thị workflows của ClaudeKit (130+ skills, 13 a
 | Framework | **Next.js 16** (App Router, Turbopack) | SEO, easy deploy Vercel |
 | Language | **TypeScript** strict mode | Type safety |
 | Styling | **Tailwind CSS v4** | Utility-first, fast |
-| Flow viz | **@xyflow/react** (ReactFlow) | Pan/zoom/drag canvas |
 | i18n | Context-based (custom) | VI mặc định, EN optional, no extra deps |
 
 ---
@@ -80,10 +79,11 @@ Mọi trang catalog/detail/docs DÙNG layout templates ở `src/components/shell
 - Category order trong `categoryOrder` cũng đặt `advanced-pipelines` ngay sau `all`
 - **Lý do**: User muốn workflows nâng cao (chuỗi end-to-end) ưu tiên hiển thị
 
-### 4. Detail panel — Inline expansion (not modal)
-- Khi click card, expand inline ABOVE grid (giống ClaudeKit Control Center)
-- **KHÔNG dùng modal popup** (đã thử, user reject)
-- Layout 2 cột: info+phases bên trái, ReactFlow canvas bên phải
+### 4. Detail panel — Modal dialog (centered, single-column)
+- Khi click card, mở `<Modal>` centered (`max-w-6xl`, backdrop dim, `Esc`/backdrop/X để close)
+- **Reversed quyết định cũ "inline expansion"** (2026-05-24) — user yêu cầu modal để grid không bị xáo trộn khi mở/đóng detail
+- **Không có ReactFlow canvas** — đã loại bỏ (2026-05-24) vì làm hỏng bố cục modal. Detail = single-column với info + phases + tips + shortcut
+- Modal primitive: `src/components/ui/modal.tsx` (lock body scroll, Esc handler, backdrop click)
 
 ### 5. Canvas — ReactFlow với pan/zoom/drag
 - Boxes có thể kéo thả riêng lẻ

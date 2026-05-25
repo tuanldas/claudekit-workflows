@@ -3,10 +3,8 @@
 import type { Workflow } from "@/types/workflow";
 import { useLocale } from "@/i18n/language-context";
 import { uiStrings } from "@/i18n/translations";
-import { DetailInlineTemplate } from "@/components/shell/detail-inline-template";
 import { SectionLabel } from "@/components/shell/section-label";
 import { LevelBadge } from "./level-badge";
-import { WorkflowFlowCanvas } from "./workflow-flow-canvas";
 
 interface WorkflowDetailProps {
   workflow: Workflow;
@@ -16,25 +14,26 @@ interface WorkflowDetailProps {
 export function WorkflowDetail({ workflow, onClose }: WorkflowDetailProps) {
   const { locale } = useLocale();
 
-  const header = (
-    <>
-      <div className="mb-2 flex items-center gap-3">
-        <LevelBadge level={workflow.level} />
-        <span className="font-mono text-caption text-foreground-subtle">
-          ~{workflow.duration}
-        </span>
+  return (
+    <div className="px-6 py-5">
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0 flex-1">
+          <div className="mb-2 flex items-center gap-3">
+            <LevelBadge level={workflow.level} />
+            <span className="font-mono text-caption text-foreground-subtle">
+              ~{workflow.duration}
+            </span>
+          </div>
+          <h2 className="text-h2 font-semibold tracking-tight text-foreground">
+            {workflow.title[locale]}
+          </h2>
+          <p className="mt-1.5 text-body leading-relaxed text-foreground-muted">
+            {workflow.description[locale]}
+          </p>
+        </div>
+        <CloseButton onClose={onClose} />
       </div>
-      <h2 className="text-h2 font-semibold tracking-tight text-foreground">
-        {workflow.title[locale]}
-      </h2>
-      <p className="mt-1.5 text-body leading-relaxed text-foreground-muted">
-        {workflow.description[locale]}
-      </p>
-    </>
-  );
 
-  const leftContent = (
-    <>
       <SectionLabel>{uiStrings.phasesHeader[locale]}</SectionLabel>
 
       <div className="flex flex-col">
@@ -109,17 +108,7 @@ export function WorkflowDetail({ workflow, onClose }: WorkflowDetailProps) {
           </code>
         </div>
       )}
-    </>
-  );
-
-  return (
-    <DetailInlineTemplate
-      header={header}
-      leftContent={leftContent}
-      rightContent={<WorkflowFlowCanvas workflow={workflow} />}
-      closeButton={<CloseButton onClose={onClose} />}
-      mobileCloseButton={<CloseButton onClose={onClose} />}
-    />
+    </div>
   );
 }
 

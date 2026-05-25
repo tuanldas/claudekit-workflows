@@ -9,3 +9,4 @@ export {
 } from "./filter-select";
 export { Separator } from "./separator";
 export { Kbd } from "./kbd";
+export { Modal } from "./modal";

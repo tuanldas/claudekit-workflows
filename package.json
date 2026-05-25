@@ -24,7 +24,6 @@
     "@shikijs/rehype": "^4.1.0",
     "@tailwindcss/typography": "^0.5.19",
     "@types/mdx": "^2.0.13",
-    "@xyflow/react": "^12.10.2",
     "cmdk": "^1.1.1",
     "flexsearch": "^0.7.43",
     "glob": "^13.0.6",

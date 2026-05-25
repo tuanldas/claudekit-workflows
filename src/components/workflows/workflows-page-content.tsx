@@ -8,6 +8,7 @@ import { uiStrings } from "@/i18n/translations";
 import { useLocale } from "@/i18n/language-context";
 import { normalizeCategory, categoryLabel } from "@/lib/category-utils";
 import { CatalogTemplate } from "@/components/shell/catalog-template";
+import { Modal } from "@/components/ui";
 import { SearchBar } from "@/components/search-bar";
 import { WorkflowCard } from "@/components/workflow-card";
 import { WorkflowDetail } from "@/components/workflow-detail";
@@ -71,35 +72,37 @@ export function WorkflowsPageContent() {
     activeCategory === "all" ? null : categoryLabel(activeCategory, locale);
 
   return (
-    <CatalogTemplate
-      eyebrow={activeLabel ?? undefined}
-      title={uiStrings.appTitle[locale]}
-      description={uiStrings.appSubtitle[locale]}
-      search={<SearchBar value={search} onChange={handleSearchChange} />}
-      count={uiStrings.workflowsCount[locale](filtered.length)}
-      detailSlot={
-        selectedWorkflow && (
-          <div className="mb-6">
-            <WorkflowDetail
-              workflow={selectedWorkflow}
-              onClose={() => setSelectedId(null)}
-            />
-          </div>
-        )
-      }
-      isEmpty={filtered.length === 0}
-      emptyMessage={uiStrings.noResults[locale]}
-    >
-      {filtered.map((workflow) => (
-        <WorkflowCard
-          key={workflow.id}
-          workflow={workflow}
-          isSelected={selectedId === workflow.id}
-          onClick={() =>
-            setSelectedId(selectedId === workflow.id ? null : workflow.id)
-          }
-        />
-      ))}
-    </CatalogTemplate>
+    <>
+      <CatalogTemplate
+        eyebrow={activeLabel ?? undefined}
+        title={uiStrings.appTitle[locale]}
+        description={uiStrings.appSubtitle[locale]}
+        search={<SearchBar value={search} onChange={handleSearchChange} />}
+        count={uiStrings.workflowsCount[locale](filtered.length)}
+        isEmpty={filtered.length === 0}
+        emptyMessage={uiStrings.noResults[locale]}
+      >
+        {filtered.map((workflow) => (
+          <WorkflowCard
+            key={workflow.id}
+            workflow={workflow}
+            isSelected={selectedId === workflow.id}
+            onClick={() => setSelectedId(workflow.id)}
+          />
+        ))}
+      </CatalogTemplate>
+      <Modal
+        open={!!selectedWorkflow}
+        onClose={() => setSelectedId(null)}
+        label={selectedWorkflow?.title[locale] ?? ""}
+      >
+        {selectedWorkflow && (
+          <WorkflowDetail
+            workflow={selectedWorkflow}
+            onClose={() => setSelectedId(null)}
+          />
+        )}
+      </Modal>
+    </>
   );
 }

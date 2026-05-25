@@ -1,6 +1,6 @@
 # ClaudeKit Workflows
 
-Interactive visualization of ClaudeKit skills, workflows, and docs. Built with Next.js 16, Tailwind v4, and `@xyflow/react`.
+Interactive visualization of ClaudeKit skills, workflows, and docs. Built with Next.js 16 and Tailwind v4.
 
 ## Getting Started
 

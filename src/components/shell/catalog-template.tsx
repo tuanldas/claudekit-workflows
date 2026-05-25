@@ -15,8 +15,6 @@ interface Props {
   search?: ReactNode;
   filter?: ReactNode;
   count?: ReactNode;
-  /** Optional slot rendered between toolbar and grid (e.g. inline detail expansion). */
-  detailSlot?: ReactNode;
   /** Catalog grid contents — cards. Rendered when `isEmpty` is false. */
   children: ReactNode;
   /** When true, replace grid with EmptyState. */
@@ -35,7 +33,6 @@ export function CatalogTemplate({
   search,
   filter,
   count,
-  detailSlot,
   children,
   isEmpty,
   emptyMessage,
@@ -51,7 +48,6 @@ export function CatalogTemplate({
         actions={headerActions}
       />
       <PageToolbar search={search} filter={filter} count={count} />
-      {detailSlot}
       {isEmpty ? (
         <EmptyState message={emptyMessage ?? ""} action={emptyAction} />
       ) : (
